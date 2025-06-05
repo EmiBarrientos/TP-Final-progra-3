@@ -1,6 +1,6 @@
 package com.example.demo.model;
 
-import com.dream_team.proyecto_final_progra3.entity.enums.ServAdicionalEnum;
+import com.example.demo.model.enums.ServAdicionalEnum;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -24,4 +24,4 @@ public class CostoServAdicional {
     @Column(nullable = false)
     private Double precio;
 
-   }
+}

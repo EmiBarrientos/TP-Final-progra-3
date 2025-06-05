@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/servicios")
+@RequestMapping("/api/Costo_Servicio")
 @RequiredArgsConstructor
 public class Costo_ServicioController {
     @Autowired

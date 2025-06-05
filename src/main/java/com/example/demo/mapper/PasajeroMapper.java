@@ -1,29 +1,27 @@
 package com.example.demo.mapper;
 
-import com.example.demo.dto.CostoServAdicionalDTO;
+import com.example.demo.dto.PasajeroDTO;
 import com.example.demo.mapper.util.ReflectionMapper;
-import com.example.demo.model.CostoServAdicional;
+import com.example.demo.model.Pasajero;
 import org.springframework.stereotype.Component;
 
 @Component
-public class CostoServAdicionalMapper {
-    public CostoServAdicionalDTO toDto(CostoServAdicional model) {
+public class PasajeroMapper {
+    public PasajeroDTO toDto(Pasajero model) {
         if (model == null) {
             return null;
         }
-        CostoServAdicionalDTO dto = new CostoServAdicionalDTO();
+        PasajeroDTO dto = new PasajeroDTO();
         ReflectionMapper.actualizarCamposNoNulos(model, dto);
         return dto;
     }
 
-    public CostoServAdicional toEntity(CostoServAdicionalDTO dto) {
+    public Pasajero toEntity(PasajeroDTO dto) {
         if (dto == null) {
             return null;
         }
-        CostoServAdicional model = new CostoServAdicional();
+        Pasajero model = new Pasajero();
         ReflectionMapper.actualizarCamposNoNulos(dto, model);
         return model;
     }
-
     }
-

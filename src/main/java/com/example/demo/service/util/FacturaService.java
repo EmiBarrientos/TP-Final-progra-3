@@ -1,12 +1,12 @@
-package com.example.demo.service;
+package com.example.demo.service.util;
 
-import com.dream_team.proyecto_final_progra3.dto.FacturaDTO;
-import com.dream_team.proyecto_final_progra3.dto.ItemFacturaDTO;
-import com.dream_team.proyecto_final_progra3.entity.CostoServAdicional;
-import com.dream_team.proyecto_final_progra3.entity.Factura;
-import com.dream_team.proyecto_final_progra3.entity.Reserva;
-import com.dream_team.proyecto_final_progra3.repository.FacturaRepository;
-import com.dream_team.proyecto_final_progra3.repository.ReservaRepository;
+import com.example.demo.dto.FacturaDTO;
+import com.example.demo.dto.ItemFacturaDTO;
+import com.example.demo.model.CostoServAdicional;
+import com.example.demo.model.Factura;
+import com.example.demo.model.Reserva;
+import com.example.demo.repository.FacturaRepository;
+import com.example.demo.repository.ReservaRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

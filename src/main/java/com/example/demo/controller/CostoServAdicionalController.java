@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
-import com.dream_team.proyecto_final_progra3.dto.CostoServAdicionalDTO;
-import com.dream_team.proyecto_final_progra3.service.CostoServAdicionalService;
+import com.example.demo.dto.CostoServAdicionalDTO;
+import com.example.demo.service.CostoServAdicionalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;

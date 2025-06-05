@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
-import com.dream_team.proyecto_final_progra3.dto.FacturaDTO;
-import com.dream_team.proyecto_final_progra3.service.Util.FacturaService;
+import com.example.demo.dto.FacturaDTO;
+import com.example.demo.service.util.FacturaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
