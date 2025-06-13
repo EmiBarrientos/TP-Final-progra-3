@@ -2,9 +2,13 @@ package com.example.demo.model;
 
 import com.example.demo.model.enums.EstadoReserva;
 import jakarta.persistence.*;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.time.LocalDate;
+import java.util.HashMap;
 import java.util.Map;
 
 @Entity
@@ -45,4 +49,14 @@ public class Reserva {
     private Map<EstadoReserva, EmpleadoAccionReserva> empleadoAccionEstado;
 
     private String observaciones;
+
+    @ElementCollection
+    @CollectionTable(
+            name = "reserva_serv_adicional_cantidad",
+            joinColumns = @JoinColumn(name = "reserva_id")
+    )
+    @MapKeyJoinColumn(name = "costo_serv_adicional_id")
+    @Column(name = "cantidad")
+    private Map<CostoServAdicional, Integer> serviciosAdicionalesConCantidad = new HashMap<>();
+
 }

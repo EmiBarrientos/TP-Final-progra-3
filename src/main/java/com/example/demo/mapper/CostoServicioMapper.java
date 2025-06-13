@@ -1,28 +1,29 @@
 package com.example.demo.mapper;
 
-import com.example.demo.dto.ReservaDTO;
+import com.example.demo.dto.CostoServicioDTO;
 import com.example.demo.mapper.util.ReflectionMapper;
-import com.example.demo.model.Reserva;
+import com.example.demo.model.Costo_Servicio;
 import org.springframework.stereotype.Component;
 
 @Component
-    public class ReservaMapper {
-        public ReservaDTO toDto(Reserva model) {
+    public class CostoServicioMapper {
+        public CostoServicioDTO toDto(Costo_Servicio model) {
             if (model == null) {
                 return null;
             }
-            ReservaDTO dto = new ReservaDTO();
+            CostoServicioDTO dto = new CostoServicioDTO();
             ReflectionMapper.actualizarCamposNoNulos(model, dto);
             return dto;
         }
 
-        public Reserva toEntity(ReservaDTO dto) {
+        public Costo_Servicio toEntity(CostoServicioDTO dto) {
             if (dto == null) {
                 return null;
             }
-            Reserva model = new Reserva();
+            Costo_Servicio model = new Costo_Servicio();
             ReflectionMapper.actualizarCamposNoNulos(dto, model);
             return model;
         }
-
     }
+
+
