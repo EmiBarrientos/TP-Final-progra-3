@@ -1,7 +1,7 @@
 package com.example.demo.dto;
 
 import com.example.demo.model.Reserva;
-import com.example.demo.model.Usuario;
+import com.example.demo.auth.entity.Usuario;
 import com.example.demo.model.enums.EstadoPasajero;
 import lombok.AllArgsConstructor;
 import lombok.Data;

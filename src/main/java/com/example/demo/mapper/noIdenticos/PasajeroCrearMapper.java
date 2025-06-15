@@ -1,11 +1,11 @@
 package com.example.demo.mapper.noIdenticos;
 
-import com.example.demo.dto.UsuarioDTO;
+import com.example.demo.auth.dto.UsuarioDTO;
 import com.example.demo.dto.crear.PasajeroCrearDTO;
 import com.example.demo.mapper.UsuarioMapper;
 import com.example.demo.model.Pasajero;
-import com.example.demo.model.Usuario;
-import com.example.demo.service.UsuarioService;
+import com.example.demo.auth.entity.Usuario;
+import com.example.demo.auth.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -40,7 +40,7 @@ public class PasajeroCrearMapper {
         if (dto == null) {
             return null;
         }
-        Optional<UsuarioDTO> usuario = usuarioServicer.findById(dto.getUsuarioId());
+        Optional<UsuarioDTO> usuario = usuarioServicer.findByIdDto(dto.getUsuarioId());
         if(usuario.isEmpty()){
             return null;
         }

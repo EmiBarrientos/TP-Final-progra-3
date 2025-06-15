@@ -1,7 +1,7 @@
 package com.example.demo.mapper.noIdenticos;
 
 import com.example.demo.dto.crear.UsuarioCrearDTO;
-import com.example.demo.model.Usuario;
+import com.example.demo.auth.entity.Usuario;
 import com.example.demo.model.embeddable.Direccion;
 import org.springframework.stereotype.Component;
 
@@ -20,7 +20,7 @@ public class UsuarioCrearMapper {
         dto.setApellido(model.getApellido());
         dto.setTelefono(model.getTelefono());
         dto.setEmail(model.getEmail());
-        dto.setPermisos(model.getPermisos()); // administrador, empleado, pasajero
+        dto.setRol(model.getRol()); // administrador, empleado, pasajero
         //private Direccion direccion;
         dto.setCalle(model.getDireccion().getCalle());
         dto.setNumero(model.getDireccion().getNumero());
@@ -43,7 +43,7 @@ public class UsuarioCrearMapper {
         model.setApellido(dto.getApellido());
         model.setTelefono(dto.getTelefono());
         model.setEmail(dto.getEmail());
-        model.setPermisos(dto.getPermisos()); // administrador, empleado, pasajero
+        model.setRol(dto.getRol()); // administrador, empleado, pasajero
         //private Direccion direccion;
         Direccion direccion = new Direccion();
         direccion.setCalle(dto.getCalle());

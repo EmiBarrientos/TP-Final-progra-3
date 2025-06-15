@@ -1,5 +1,6 @@
 package com.example.demo.dto.crear;
 
+import com.example.demo.auth.user.Rol;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,7 +16,7 @@ public class UsuarioCrearDTO {
     private String apellido;
     private String telefono;
     private String email;
-    private String permisos; // administrador, empleado, pasajero
+    private Rol rol; // administrador, empleado, pasajero
     //private Direccion direccion;
     private String calle;
     private String numero;
