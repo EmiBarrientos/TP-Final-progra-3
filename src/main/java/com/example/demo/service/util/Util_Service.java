@@ -71,7 +71,7 @@ public class Util_Service {
             LocalDate fechaInicio, LocalDate fechaFin, TipoHabitacion tipo) {
         List<HabitacionDTO> habitacionesDisponibles = obtenerHabitacionesDisponibles(
                 fechaInicio, fechaFin).stream()
-                .filter(p->p.getTipoHabitacion() == String.valueOf(tipo)).toList();
+                .filter(p->TipoHabitacion.valueOf(p.getTipoHabitacion()) == tipo).toList();
         return habitacionesDisponibles;
     }
 
