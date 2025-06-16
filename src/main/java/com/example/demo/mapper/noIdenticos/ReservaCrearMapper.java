@@ -74,6 +74,6 @@ public class ReservaCrearMapper {
         if(dto.getCantidadPasajeros()<0){
             return Optional.empty();
         }
-        return Optional.of(Integer.valueOf(dto.getCantidadPasajeros()));
+        return Optional.of(dto.getCantidadPasajeros());
     }
 }
