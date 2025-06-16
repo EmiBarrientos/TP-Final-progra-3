@@ -1,8 +1,10 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.PasajeroDTO;
+import com.example.demo.dto.crear.PasajeroConUsuarioCreadoCrearDTO;
 import com.example.demo.dto.crear.PasajeroCrearDTO;
 import com.example.demo.mapper.PasajeroMapper;
+import com.example.demo.mapper.noIdenticos.PasajeroConUsuarioCreadoCrearMapper;
 import com.example.demo.mapper.noIdenticos.PasajeroCrearMapper;
 import com.example.demo.mapper.util.ReflectionMapper;
 import com.example.demo.model.Pasajero;
@@ -18,20 +20,25 @@ public class PasajeroService {
     private final PasajeroRepository pasajeroRepository;
     private final PasajeroMapper pasajeroMapper;
     private final PasajeroCrearMapper pasajeroCrearMapper;
+    private final PasajeroConUsuarioCreadoCrearMapper pasajeroConUsuarioCreadoCrearMapper;
 
     @Autowired
-    public PasajeroService(PasajeroRepository pasajeroRepository,
-                           PasajeroMapper pasajeroMapper,
-                           PasajeroCrearMapper pasajeroCrearMapper) {
+    public PasajeroService(PasajeroRepository pasajeroRepository, PasajeroMapper pasajeroMapper, PasajeroCrearMapper pasajeroCrearMapper, PasajeroConUsuarioCreadoCrearMapper pasajeroConUsuarioCreadoCrearMapper) {
         this.pasajeroRepository = pasajeroRepository;
         this.pasajeroMapper = pasajeroMapper;
         this.pasajeroCrearMapper = pasajeroCrearMapper;
+        this.pasajeroConUsuarioCreadoCrearMapper = pasajeroConUsuarioCreadoCrearMapper;
     }
 
-    public List<PasajeroDTO> findAll() {
+  /*  public List<PasajeroDTO> findAll() {
         return
                 pasajeroRepository.findAll()
                         .stream().map(p->pasajeroMapper.toDto(p)).toList();
+    }
+*/
+    public List<Pasajero> findAll() {
+        return
+                pasajeroRepository.findAll();
     }
 
     public Optional<PasajeroDTO> findById(Long id) {
@@ -39,13 +46,14 @@ public class PasajeroService {
         return Optional.ofNullable(pasajeroDTO);
     }
 
-/*
-    public Optional<PasajeroDTO> save(PasajeroCrearDTO pasajeroCrearDTO) {
-        Pasajero pasajero = pasajeroCrearMapper.toEntity(pasajeroCrearDTO);
+
+    public Optional<PasajeroDTO> save(PasajeroConUsuarioCreadoCrearDTO pasajeroCrearDTO) {
+        Pasajero pasajero = pasajeroConUsuarioCreadoCrearMapper.toEntity(pasajeroCrearDTO);
         PasajeroDTO pasajeroDTO = pasajeroMapper.toDto(pasajeroRepository.save(pasajero));
-        return Optional.ofNullable(pasajeroDTO);
+        return Optional.of(pasajeroDTO);
     }
-*/
+
+
     public void deleteById(Long id) {
         pasajeroRepository.deleteById(id);
     }

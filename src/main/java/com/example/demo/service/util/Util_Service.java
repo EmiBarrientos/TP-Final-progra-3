@@ -43,11 +43,11 @@ public class Util_Service {
 
 
 
-    public Optional<PasajeroDTO> save(PasajeroCrearDTO pasajeroCrearDTO) {
+    public Optional<PasajeroDTO> savePasajeroUsuario(PasajeroCrearDTO pasajeroCrearDTO) {
 
         Pasajero pasajero = pasajeroCrearMapper.toEntity(pasajeroCrearDTO);
         Usuario usuario = usuarioServicioRepository.save(pasajero.getUsuario());
-        pasajero.setId(usuario.getId());
+        pasajero.setUsuario(usuario);
         PasajeroDTO pasajeroDTO = pasajeroMapper.toDto(pasajeroRepository.save(pasajero));
         return Optional.ofNullable(pasajeroDTO);
     }
@@ -110,8 +110,8 @@ public class Util_Service {
     }
 
 
-    public Double calcularCostoTotal(HabitacionDTO habitacionDTO) {
-        Habitacion habitacion = habitacionMapper.toEntity(habitacionDTO);
+    public Double calcularCostoTotal(String numeroHabitacion) {
+        Habitacion habitacion = habitacionRepository.findByNumeroHabitacion(numeroHabitacion);
         if (habitacion == null) {
             throw new IllegalArgumentException("La habitación no puede ser nula");
         }

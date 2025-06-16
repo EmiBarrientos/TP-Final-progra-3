@@ -1,9 +1,11 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.PasajeroDTO;
+import com.example.demo.dto.crear.PasajeroConUsuarioCreadoCrearDTO;
 import com.example.demo.dto.crear.PasajeroCrearDTO;
 import com.example.demo.mapper.PasajeroMapper;
 import com.example.demo.mapper.noIdenticos.PasajeroCrearMapper;
+import com.example.demo.model.Pasajero;
 import com.example.demo.service.PasajeroService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +27,7 @@ public class PasajeroController {
     private PasajeroMapper pasajeroMapper;
 
     @GetMapping
-    public List<PasajeroDTO> getAllPasajeros() {
+    public List<Pasajero> getAllPasajeros() {
         return pasajeroService.findAll();
     }
 
@@ -38,10 +40,10 @@ public class PasajeroController {
 
 
     @PostMapping
-    public PasajeroDTO createPasajero(@RequestBody PasajeroCrearDTO pasajeroCrearDTO) {
+    public PasajeroDTO createPasajero(@RequestBody PasajeroConUsuarioCreadoCrearDTO pasajero) {
         //Pasajero pasajero = pasajeroCrearMapper.toEntity(pasajeroCrearDTO);
         //PasajeroDTO pasajeroDTO = pasajeroMapper.toDto(pasajero);
-        return pasajeroService.save(pasajeroCrearDTO).get();
+        return pasajeroService.save(pasajero).get();
     }
 
     @PutMapping("/{id}")

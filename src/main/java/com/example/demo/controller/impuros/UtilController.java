@@ -1,6 +1,8 @@
 package com.example.demo.controller.impuros;
 
 import com.example.demo.dto.HabitacionDTO;
+import com.example.demo.dto.PasajeroDTO;
+import com.example.demo.dto.crear.PasajeroCrearDTO;
 import com.example.demo.model.enums.EstadoReserva;
 import com.example.demo.model.enums.TipoHabitacion;
 import com.example.demo.service.util.Util_Service;
@@ -19,6 +21,17 @@ public class UtilController {
 
     private final Util_Service util_Service;
 
+
+
+    @PostMapping
+    public PasajeroDTO createPasajero(@RequestBody PasajeroCrearDTO pasajeroCrearDTO) {
+        //Pasajero pasajero = pasajeroCrearMapper.toEntity(pasajeroCrearDTO);
+        //PasajeroDTO pasajeroDTO = pasajeroMapper.toDto(pasajero);
+        return util_Service.savePasajeroUsuario(pasajeroCrearDTO).get();
+    }
+
+
+
     @GetMapping("/disponibles") // Devuelve habitaciones que no tienen reserva
     public ResponseEntity<List<HabitacionDTO>> obtenerHabitacionesDisponibles(
             @RequestParam("fechaInicio") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaInicio,
@@ -34,7 +47,7 @@ public class UtilController {
 
 
 
-    @GetMapping("/disponibles") // Devuelve habitaciones que no tienen reserva
+    @GetMapping("/disponiblesfiltro") // Devuelve habitaciones que no tienen reserva
     public ResponseEntity<List<HabitacionDTO>> obtenerHabitacionesDisponiblesPorTipoyFecha(
             @RequestParam("fechaInicio") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaInicio,
             @RequestParam("fechaFin") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaFin,
@@ -46,6 +59,12 @@ public class UtilController {
 
         List<HabitacionDTO> disponibles = util_Service.obtenerHabitacionesDisponiblesPorFechayTipo(fechaInicio, fechaFin, tipo);
         return ResponseEntity.ok(disponibles);
+    }
+
+
+    @GetMapping("/costo/{numero}")
+    public double getCostoHabitacionByNumero(@PathVariable String numero) {
+        return util_Service.calcularCostoTotal(numero);
     }
 
 

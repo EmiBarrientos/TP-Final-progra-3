@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.CostoServAdicionalDTO;
-import com.example.demo.service.CostoServAdicionalService;
+import com.example.demo.service.VERCostoServAdicionalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -12,10 +12,10 @@ import java.util.List;
 @RequestMapping("/api/costo-serv-adicionales")
 public class CostoServAdicionalController {
 
-    private final CostoServAdicionalService costoService;
+    private final VERCostoServAdicionalService costoService;
 
     @Autowired
-    public CostoServAdicionalController(CostoServAdicionalService costoService) {
+    public CostoServAdicionalController(VERCostoServAdicionalService costoService) {
         this.costoService = costoService;
     }
 
