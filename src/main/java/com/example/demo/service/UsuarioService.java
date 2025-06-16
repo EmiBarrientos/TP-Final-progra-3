@@ -44,7 +44,7 @@ public class UsuarioService {
 
         Usuario usuario = usuarioCrearMapper.toEntity(usuarioCrearDto);
         Usuario savedUsuario = usuarioRepository.save(usuario);
-        return Optional.ofNullable(usuarioMapper.toDto(savedUsuario));
+        return Optional.of(usuarioMapper.toDto(savedUsuario));
     }
 
     public void deleteById(Long id) {

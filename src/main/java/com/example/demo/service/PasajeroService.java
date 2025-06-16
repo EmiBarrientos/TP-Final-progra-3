@@ -43,7 +43,7 @@ public class PasajeroService {
 
     public Optional<PasajeroDTO> findById(Long id) {
         PasajeroDTO pasajeroDTO = pasajeroMapper.toDto(pasajeroRepository.findById(id).get());
-        return Optional.ofNullable(pasajeroDTO);
+        return Optional.of(pasajeroDTO);
     }
 
 
@@ -58,18 +58,18 @@ public class PasajeroService {
         pasajeroRepository.deleteById(id);
     }
 
-    public Optional<PasajeroDTO> updatePasajero(Long id, PasajeroCrearDTO dtoCrearDetails) {
-        dtoCrearDetails.setId(id); // no puede modificar el id
-        Pasajero modelCrearDetails = pasajeroCrearMapper.toEntity(dtoCrearDetails); //creamos el modelo con los cambios y el resto null
+    public Optional<PasajeroDTO> updatePasajero(Long id, PasajeroConUsuarioCreadoCrearDTO dtoCrearDetails) {
+        //dtoCrearDetails.setId(id); // no puede modificar el id
+        Pasajero modelCrearDetails = pasajeroConUsuarioCreadoCrearMapper.toEntity(dtoCrearDetails); //creamos el modelo con los cambios y el resto null
         Optional<Pasajero> model = pasajeroRepository.findById(id); //buscamos el model a cambiar
         if (model.isPresent()) {
             Pasajero updatedModel = model.get(); // el model a cambiar
             ReflectionMapper.actualizarCamposNoNulos(modelCrearDetails,updatedModel); // actualizamos el model
-            pasajeroRepository.save(updatedModel);
-            Optional<PasajeroDTO> respuesta = Optional.ofNullable(pasajeroMapper.toDto(updatedModel));
+            updatedModel = pasajeroRepository.save(updatedModel);
+            Optional<PasajeroDTO> respuesta = Optional.of(pasajeroMapper.toDto(updatedModel));
             return respuesta;
         } else {
-            return Optional.ofNullable(null);
+            return Optional.empty();
         }
     }
 

@@ -1,7 +1,9 @@
 package com.example.demo.controller.impuros;
 
+import com.example.demo.dto.EmpleadoDTO;
 import com.example.demo.dto.HabitacionDTO;
 import com.example.demo.dto.PasajeroDTO;
+import com.example.demo.dto.crear.EmpleadoCrearDTO;
 import com.example.demo.dto.crear.PasajeroCrearDTO;
 import com.example.demo.model.enums.EstadoReserva;
 import com.example.demo.model.enums.TipoHabitacion;
@@ -23,12 +25,21 @@ public class UtilController {
 
 
 
-    @PostMapping
+    @PostMapping("/crear-pasajero")
     public PasajeroDTO createPasajero(@RequestBody PasajeroCrearDTO pasajeroCrearDTO) {
         //Pasajero pasajero = pasajeroCrearMapper.toEntity(pasajeroCrearDTO);
         //PasajeroDTO pasajeroDTO = pasajeroMapper.toDto(pasajero);
         return util_Service.savePasajeroUsuario(pasajeroCrearDTO).get();
     }
+
+
+    @PostMapping("/crear-empleado")
+    public EmpleadoDTO createEmpleado(@RequestBody EmpleadoCrearDTO empleadoCrearDTO) {
+        //Pasajero pasajero = pasajeroCrearMapper.toEntity(pasajeroCrearDTO);
+        //PasajeroDTO pasajeroDTO = pasajeroMapper.toDto(pasajero);
+        return util_Service.saveEmpleadoUsuario(empleadoCrearDTO).get();
+    }
+
 
 
 

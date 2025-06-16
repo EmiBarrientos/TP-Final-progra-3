@@ -1,6 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.EmpleadoDTO;
+import com.example.demo.dto.crear.EmpleadoConUsuarioCreadoCrearDTO;
 import com.example.demo.dto.crear.EmpleadoCrearDTO;
 import com.example.demo.mapper.noIdenticos.EmpleadoCrearMapper;
 import com.example.demo.service.EmpleadoService;
@@ -33,13 +34,13 @@ public class EmpleadoController {
     }
 
     @PostMapping
-    public EmpleadoDTO createEmpleado(@RequestBody EmpleadoCrearDTO empleado) {
+    public EmpleadoDTO createEmpleado(@RequestBody EmpleadoConUsuarioCreadoCrearDTO empleado) {
         return empleadoService.save(empleado).get();
     }
 
     @PutMapping("/{id}")
-    public EmpleadoDTO updateEmpleado(@PathVariable Long id, @RequestBody EmpleadoCrearDTO empleadoDetails) {
-        return empleadoService.updateEmpleado(id,empleadoDetails).get();
+    public EmpleadoDTO updateEmpleado(@PathVariable Long id, @RequestBody EmpleadoConUsuarioCreadoCrearDTO empleadoDetails) {
+        return empleadoService.updateEmpledo(id,empleadoDetails).get();
     }
 
     @DeleteMapping("/{id}")

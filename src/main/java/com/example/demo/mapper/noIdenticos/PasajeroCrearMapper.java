@@ -6,6 +6,7 @@ import com.example.demo.mapper.UsuarioMapper;
 import com.example.demo.model.Pasajero;
 import com.example.demo.model.Usuario;
 import com.example.demo.model.embeddable.Direccion;
+import com.example.demo.model.enums.Rol;
 import com.example.demo.service.UsuarioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -31,15 +32,17 @@ public class PasajeroCrearMapper {
         }
         PasajeroCrearDTO dto = new PasajeroCrearDTO();
         dto.setId(model.getId());
-        //dto.setUsuarioId(model.getUsuario().getId());
+        dto.setEstado(model.getEstado());
+
+// todos los demas de usuario
         dto.setId(model.getId());
         dto.setDni(model.getUsuario().getDni());
         dto.setNombre(model.getUsuario().getNombre());
         dto.setApellido(model.getUsuario().getApellido());
         dto.setTelefono(model.getUsuario().getTelefono());
         dto.setEmail(model.getUsuario().getEmail());
-        dto.setPermisos(model.getUsuario().getPermisos()); // administrador, empleado, pasajero
-        //private Direccion direccion;
+
+        // direccion
         dto.setCalle(model.getUsuario().getDireccion().getCalle());
         dto.setNumero(model.getUsuario().getDireccion().getNumero());
         dto.setCiudad(model.getUsuario().getDireccion().getCiudad());
@@ -47,9 +50,13 @@ public class PasajeroCrearMapper {
         dto.setCodigoPostal(model.getUsuario().getDireccion().getCodigoPostal());
         dto.setPais(model.getUsuario().getDireccion().getPais());
 
+        dto.setUsername(model.getUsuario().getUsername());
+        dto.setPassword(model.getUsuario().getPassword());
+
+        dto.setRol(String.valueOf(model.getUsuario().getRol()));
 
 
-        dto.setEstado(model.getEstado());
+
         return dto;
     }
 
@@ -60,14 +67,15 @@ public class PasajeroCrearMapper {
         }
 
         Usuario modelU = new Usuario();
-        modelU.setId(dto.getId());
+
+        modelU.setId(dto.getIdUsuario());
         modelU.setDni(dto.getDni());
         modelU.setNombre(dto.getNombre());
         modelU.setApellido(dto.getApellido());
         modelU.setTelefono(dto.getTelefono());
         modelU.setEmail(dto.getEmail());
-        modelU.setPermisos(dto.getPermisos()); // administrador, empleado, pasajero
-        //private Direccion direccion;
+
+        // direccion
         Direccion direccion = new Direccion();
         direccion.setCalle(dto.getCalle());
         direccion.setNumero(dto.getNumero());
@@ -76,6 +84,12 @@ public class PasajeroCrearMapper {
         direccion.setCodigoPostal(dto.getCodigoPostal());
         direccion.setPais(dto.getPais());
         modelU.setDireccion(direccion);
+
+        modelU.setUsername(dto.getUsername());
+        modelU.setPassword(dto.getPassword());
+
+        modelU.setRol(Rol.valueOf(dto.getRol()));
+
 
         Pasajero model = new Pasajero();
         model.setId(dto.getId());

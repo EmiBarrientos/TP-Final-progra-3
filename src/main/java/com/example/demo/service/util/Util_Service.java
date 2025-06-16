@@ -1,11 +1,15 @@
 package com.example.demo.service.util;
 
 import com.example.demo.dto.CostoHabitacionDTO;
+import com.example.demo.dto.EmpleadoDTO;
 import com.example.demo.dto.HabitacionDTO;
 import com.example.demo.dto.PasajeroDTO;
+import com.example.demo.dto.crear.EmpleadoCrearDTO;
 import com.example.demo.dto.crear.PasajeroCrearDTO;
+import com.example.demo.mapper.EmpleadoMapper;
 import com.example.demo.mapper.HabitacionMapper;
 import com.example.demo.mapper.PasajeroMapper;
+import com.example.demo.mapper.noIdenticos.EmpleadoCrearMapper;
 import com.example.demo.mapper.noIdenticos.PasajeroCrearMapper;
 import com.example.demo.model.*;
 import com.example.demo.model.enums.EstadoReserva;
@@ -15,6 +19,7 @@ import com.example.demo.repository.*;
 import com.example.demo.service.CostoHabitacionService;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.validator.internal.constraintvalidators.bv.time.pastorpresent.PastOrPresentValidatorForCalendar;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -37,6 +42,10 @@ public class Util_Service {
     private final HabitacionMapper habitacionMapper;
     private final PasajeroCrearMapper pasajeroCrearMapper;
     private final PasajeroMapper pasajeroMapper;
+    private final EmpleadoCrearMapper empleadoCrearMapper;
+    private final EmpleadoMapper empleadoMapper;
+
+
 
 
 
@@ -49,8 +58,20 @@ public class Util_Service {
         Usuario usuario = usuarioServicioRepository.save(pasajero.getUsuario());
         pasajero.setUsuario(usuario);
         PasajeroDTO pasajeroDTO = pasajeroMapper.toDto(pasajeroRepository.save(pasajero));
-        return Optional.ofNullable(pasajeroDTO);
+        return Optional.of(pasajeroDTO);
     }
+
+
+    public Optional<EmpleadoDTO> saveEmpleadoUsuario(EmpleadoCrearDTO empleadoCrearDTO) {
+
+        Empleado empleado = empleadoCrearMapper.toEntity(empleadoCrearDTO);
+        Usuario usuario = usuarioServicioRepository.save(empleado.getUsuario());
+        empleado.setUsuario(usuario);
+        EmpleadoDTO empleadoDTO = empleadoMapper.toDto(empleadoRepository.save(empleado));
+        return Optional.of(empleadoDTO);
+    }
+
+
 
 
 
