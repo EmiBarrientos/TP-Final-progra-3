@@ -1,9 +1,9 @@
 package com.example.demo.service;
 
-import com.dream_team.proyecto_final_progra3.dto.ServAdicionalDTO;
-import com.dream_team.proyecto_final_progra3.entity.ServAdicional;
-import com.dream_team.proyecto_final_progra3.entity.enums.ServAdicionalEnum;
-import com.dream_team.proyecto_final_progra3.repository.ServAdicionalRepository;
+import com.example.demo.dto.ServAdicionalDTO;
+import com.example.demo.model.ServAdicional;
+import com.example.demo.model.enums.ServAdicionalEnum;
+import com.example.demo.repository.ServAdicionalRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 

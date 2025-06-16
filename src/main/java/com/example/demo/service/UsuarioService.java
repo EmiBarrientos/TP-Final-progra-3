@@ -1,7 +1,10 @@
 package com.example.demo.service;
 
 import com.example.demo.dto.UsuarioDTO;
+import com.example.demo.dto.crear.UsuarioCrearDTO;
 import com.example.demo.mapper.UsuarioMapper;
+import com.example.demo.mapper.noIdenticos.UsuarioCrearMapper;
+import com.example.demo.mapper.util.ReflectionMapper;
 import com.example.demo.model.Usuario;
 import com.example.demo.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,11 +19,13 @@ import java.util.stream.Collectors;
 public class UsuarioService {
     private final UsuarioRepository usuarioRepository;
     private final UsuarioMapper usuarioMapper;
+    private final UsuarioCrearMapper usuarioCrearMapper;
 
     @Autowired
-    public UsuarioService(UsuarioRepository usuarioRepository, UsuarioMapper usuarioMapper) {
+    public UsuarioService(UsuarioRepository usuarioRepository, UsuarioMapper usuarioMapper, UsuarioCrearMapper usuarioCrearMapper) {
         this.usuarioRepository = usuarioRepository;
         this.usuarioMapper = usuarioMapper;
+        this.usuarioCrearMapper = usuarioCrearMapper;
     }
 
     public List<UsuarioDTO> findAll() {
@@ -35,10 +40,11 @@ public class UsuarioService {
                 .map(usuarioMapper::toDto);
     }
 
-    public UsuarioDTO save(UsuarioDTO usuarioDto) {
-        Usuario usuario = usuarioMapper.toEntity(usuarioDto);
+    public Optional<UsuarioDTO> save(UsuarioCrearDTO usuarioCrearDto) {
+
+        Usuario usuario = usuarioCrearMapper.toEntity(usuarioCrearDto);
         Usuario savedUsuario = usuarioRepository.save(usuario);
-        return usuarioMapper.toDto(savedUsuario);
+        return Optional.ofNullable(usuarioMapper.toDto(savedUsuario));
     }
 
     public void deleteById(Long id) {
@@ -54,4 +60,21 @@ public class UsuarioService {
         return Optional.ofNullable(usuarioRepository.findByEmail(email))
                 .map(usuarioMapper::toDto);
     }
+
+    public Optional<UsuarioDTO> updateUsuario(Long id, UsuarioCrearDTO dtoCrearDetails) {
+        dtoCrearDetails.setId(id); // no puede modificar el id
+        Usuario modelCrearDetails = usuarioCrearMapper.toEntity(dtoCrearDetails); //creamos el modelo con los cambios y el resto null
+        Optional<Usuario> model = usuarioRepository.findById(id); //buscamos el model a cambiar
+        if (model.isPresent()) {
+            Usuario updatedModel = model.get(); // el model a cambiar
+            ReflectionMapper.actualizarCamposNoNulos(modelCrearDetails,updatedModel); // actualizamos el model
+            usuarioRepository.save(updatedModel);
+            Optional<UsuarioDTO> respuesta = Optional.ofNullable(usuarioMapper.toDto(updatedModel));
+            return respuesta;
+        } else {
+            return Optional.ofNullable(null);
+        }
+    }
+
+
 }

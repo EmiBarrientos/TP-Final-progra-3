@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
 import com.example.demo.dto.UsuarioDTO;
-import com.example.demo.mapper.util.ReflectionMapper;
+import com.example.demo.dto.crear.UsuarioCrearDTO;
 import com.example.demo.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,21 +30,13 @@ public class UsuarioController {
     }
 
     @PostMapping
-    public UsuarioDTO createUsuario(@RequestBody UsuarioDTO usuario) {
-        return usuarioService.save(usuario);
+    public UsuarioDTO createUsuario(@RequestBody UsuarioCrearDTO usuario) {
+        return usuarioService.save(usuario).get();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<UsuarioDTO> updateUsuario(@PathVariable Long id, @RequestBody UsuarioDTO usuarioDetails) {
-        Optional<UsuarioDTO> usuario = usuarioService.findById(id);
-        if (usuario.isPresent()) {
-            UsuarioDTO updatedUsuario = usuario.get();
-            ReflectionMapper.actualizarCamposNoNulos(usuarioDetails,updatedUsuario);
-            // Actualizar campos aquí
-            return ResponseEntity.ok(usuarioService.save(updatedUsuario));
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public UsuarioDTO updateUsuario(@PathVariable Long id, @RequestBody UsuarioCrearDTO usuarioDetails) {
+        return usuarioService.updateUsuario(id,usuarioDetails).get();
     }
 
     @DeleteMapping("/{id}")

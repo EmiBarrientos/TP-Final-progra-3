@@ -1,7 +1,7 @@
 package com.example.demo.controller;
 
-import com.dream_team.proyecto_final_progra3.dto.ServAdicionalDTO;
-import com.dream_team.proyecto_final_progra3.service.ServAdicionalService;
+import com.example.demo.dto.ServAdicionalDTO;
+import com.example.demo.service.ServAdicionalService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/servicios") // Ruta base: /api/servicios
+@RequestMapping("/api/ServAdicional") // Ruta base: /api/servicios
 public class ServAdicionalController {
 
     private final ServAdicionalService service;
