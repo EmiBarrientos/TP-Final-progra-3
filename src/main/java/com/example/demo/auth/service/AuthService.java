@@ -9,6 +9,9 @@ import com.example.demo.auth.jwt.JwtService;
 import com.example.demo.auth.repository.UsuarioRepository;
 import com.example.demo.auth.user.Rol;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -17,9 +20,16 @@ public class AuthService {
 
     private final UsuarioRepository usuarioRepository;
     private final JwtService jwtService;
+    private final AuthenticationManager authenticationManager;
 
     public AuthResponse login(LoginRequest request){
-        return null;
+       authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
+        UserDetails user=usuarioRepository.findByUsername(request.getUsername())
+                .orElseThrow(()-> new RuntimeException("usuario no encontrado"));
+       String token= jwtService.getToken(user);
+        return AuthResponse.builder()
+                .token(token)
+                .build();
     }
     public AuthResponse register(RegisterRequest request){
         Usuario usuario= Usuario.builder()
