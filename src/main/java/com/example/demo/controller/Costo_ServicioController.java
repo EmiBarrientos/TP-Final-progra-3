@@ -61,4 +61,9 @@ public class Costo_ServicioController {
         costoServicioService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
+
+    @PostMapping("/emi")
+    public String welcome(){
+        return "Bienvenido a EMI";
+    }
 }
