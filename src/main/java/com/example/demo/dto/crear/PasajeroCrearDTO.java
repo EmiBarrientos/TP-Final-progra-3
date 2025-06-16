@@ -9,7 +9,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 public class PasajeroCrearDTO {
-    private Long id;
+
 
 //    private Long usuarioId;
 

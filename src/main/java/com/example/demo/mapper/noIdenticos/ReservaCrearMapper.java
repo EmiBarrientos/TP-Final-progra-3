@@ -67,13 +67,13 @@ public class ReservaCrearMapper {
         return model;
     }
 
-    public Optional<int> toCantidadPasajeros (ReservaCrearDTO dto){
+    public Optional<Integer> toCantidadPasajeros (ReservaCrearDTO dto){
         if (dto == null) {
             return Optional.empty();
         }
-        if(dto.getCantidadPasajeros()== null || dto.getCantidadPasajeros()<0){
+        if(dto.getCantidadPasajeros()<0){
             return Optional.empty();
         }
-        return Optional.of(dto.getCantidadPasajeros());
+        return Optional.of(Integer.valueOf(dto.getCantidadPasajeros()));
     }
 }

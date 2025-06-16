@@ -46,7 +46,7 @@ public class ReservaService {
 
     public Optional <ReservaDTO> save(ReservaCrearDTO reservaCrearDTO) {
         Reserva reserva = reservaCrearMapper.toEntity(reservaCrearDTO);
-        Optional<int> cantidad = reservaCrearMapper.toCantidadPasajeros(reservaCrearDTO);
+        Optional<Integer> cantidad = reservaCrearMapper.toCantidadPasajeros(reservaCrearDTO);
         if(cantidad.isEmpty()){
             throw new DatosInvalidosReserva("Cantidad de Personas es obligatorio y positivo");
         }
