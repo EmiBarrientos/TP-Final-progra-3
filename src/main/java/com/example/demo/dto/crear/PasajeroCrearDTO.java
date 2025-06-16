@@ -10,6 +10,26 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class PasajeroCrearDTO {
     private Long id;
-    private Long usuarioId;
+
+//    private Long usuarioId;
+
+    private Long id;
+    private String dni;
+    private String nombre;
+    private String apellido;
+    private String telefono;
+    private String email;
+    private String permisos; // administrador, empleado, pasajero
+    //private Direccion direccion;
+    private String calle;
+    private String numero;
+    private String ciudad;
+    private String provincia;
+    private String codigoPostal;
+    private String pais;
+
+
+
+
     private EstadoPasajero estado;
 }

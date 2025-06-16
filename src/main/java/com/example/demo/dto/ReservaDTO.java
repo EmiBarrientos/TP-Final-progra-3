@@ -23,4 +23,5 @@ public class ReservaDTO {
     private EstadoReserva estado;
     private String observaciones;
     private Map<EstadoReserva,EmpleadoAccionReserva> estadoReservaEmpleadoAccionReservaMap;
+
 }

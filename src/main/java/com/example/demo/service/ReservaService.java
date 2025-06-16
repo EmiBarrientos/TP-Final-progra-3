@@ -8,6 +8,7 @@ import com.example.demo.mapper.util.ReflectionMapper;
 import com.example.demo.model.Reserva;
 import com.example.demo.model.enums.EstadoReserva;
 import com.example.demo.repository.ReservaRepository;
+import com.example.demo.service.exepciones.DatosInvalidosReserva;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,6 +46,14 @@ public class ReservaService {
 
     public Optional <ReservaDTO> save(ReservaCrearDTO reservaCrearDTO) {
         Reserva reserva = reservaCrearMapper.toEntity(reservaCrearDTO);
+        Optional<int> cantidad = reservaCrearMapper.toCantidadPasajeros(reservaCrearDTO);
+        if(cantidad.isEmpty()){
+            throw new DatosInvalidosReserva("Cantidad de Personas es obligatorio y positivo");
+        }
+        int cantidadDePersonas = cantidad.get();
+        if(cantidadDePersonas<reserva.getHabitacion().getCapacidad()){
+            throw new DatosInvalidosReserva("La cantidad de personas supera la capacidad de la Habitacion");
+        }
         return Optional.ofNullable(
                 reservaMapper.toDto(reservaRepository.save(reserva))
         );

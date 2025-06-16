@@ -2,7 +2,11 @@ package com.example.demo.service.util;
 
 import com.example.demo.dto.CostoHabitacionDTO;
 import com.example.demo.dto.HabitacionDTO;
+import com.example.demo.dto.PasajeroDTO;
+import com.example.demo.dto.crear.PasajeroCrearDTO;
 import com.example.demo.mapper.HabitacionMapper;
+import com.example.demo.mapper.PasajeroMapper;
+import com.example.demo.mapper.noIdenticos.PasajeroCrearMapper;
 import com.example.demo.model.*;
 import com.example.demo.model.enums.EstadoReserva;
 import com.example.demo.model.enums.ServicioEnum;
@@ -10,11 +14,13 @@ import com.example.demo.model.enums.TipoHabitacion;
 import com.example.demo.repository.*;
 import com.example.demo.service.CostoHabitacionService;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.validator.internal.constraintvalidators.bv.time.pastorpresent.PastOrPresentValidatorForCalendar;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,8 +30,28 @@ public class Util_Service {
     private final EmpleadoRepository empleadoRepository;
     private final PasajeroRepository pasajeroRepository;
     private final Costo_ServicioRepository costoServicioRepository;
+    private final UsuarioRepository usuarioServicioRepository;
+
+
     private final CostoHabitacionService costoHabitacionService;
     private final HabitacionMapper habitacionMapper;
+    private final PasajeroCrearMapper pasajeroCrearMapper;
+    private final PasajeroMapper pasajeroMapper;
+
+
+
+
+
+
+    public Optional<PasajeroDTO> save(PasajeroCrearDTO pasajeroCrearDTO) {
+
+        Pasajero pasajero = pasajeroCrearMapper.toEntity(pasajeroCrearDTO);
+        Usuario usuario = usuarioServicioRepository.save(pasajero.getUsuario());
+        pasajero.setId(usuario.getId());
+        PasajeroDTO pasajeroDTO = pasajeroMapper.toDto(pasajeroRepository.save(pasajero));
+        return Optional.ofNullable(pasajeroDTO);
+    }
+
 
 
     public List<HabitacionDTO> obtenerHabitacionesDisponibles(LocalDate fechaInicio, LocalDate fechaFin) {
@@ -39,6 +65,18 @@ public class Util_Service {
         return habitacionRepository.findHabitacionesNoReservadas(habitacionesReservadas)
                 .stream().map(p->habitacionMapper.toDto(p)).toList();
     }
+
+
+    public List<HabitacionDTO> obtenerHabitacionesDisponiblesPorFechayTipo(
+            LocalDate fechaInicio, LocalDate fechaFin, TipoHabitacion tipo) {
+        List<HabitacionDTO> habitacionesDisponibles = obtenerHabitacionesDisponibles(
+                fechaInicio, fechaFin).stream()
+                .filter(p->p.getTipoHabitacion() == String.valueOf(tipo)).toList();
+        return habitacionesDisponibles;
+    }
+
+
+
 
     public void asignarEmpleadoReserva(long reservaId, long empleadoId, EstadoReserva accionEstado) {
         // Traemos al empleado

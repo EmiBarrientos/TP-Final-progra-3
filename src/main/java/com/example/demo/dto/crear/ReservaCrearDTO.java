@@ -23,4 +23,6 @@ public class ReservaCrearDTO {
         // (nuevoEstadoReserva, idReserva, idEmpleado)
         // private EstadoReserva estadoReserva;
         //private EmpleadoAccionReserva empleadoAccionReserva
+
+    private int cantidadPasajeros; // solo en el dto crear
 }

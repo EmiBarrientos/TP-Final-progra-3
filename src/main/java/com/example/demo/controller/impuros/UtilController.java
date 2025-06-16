@@ -2,6 +2,7 @@ package com.example.demo.controller.impuros;
 
 import com.example.demo.dto.HabitacionDTO;
 import com.example.demo.model.enums.EstadoReserva;
+import com.example.demo.model.enums.TipoHabitacion;
 import com.example.demo.service.util.Util_Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -30,6 +31,23 @@ public class UtilController {
         List<HabitacionDTO> disponibles = util_Service.obtenerHabitacionesDisponibles(fechaInicio, fechaFin);
         return ResponseEntity.ok(disponibles);
     }
+
+
+
+    @GetMapping("/disponibles") // Devuelve habitaciones que no tienen reserva
+    public ResponseEntity<List<HabitacionDTO>> obtenerHabitacionesDisponiblesPorTipoyFecha(
+            @RequestParam("fechaInicio") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaInicio,
+            @RequestParam("fechaFin") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaFin,
+            TipoHabitacion tipo) {
+
+        if (fechaInicio == null || fechaFin == null || fechaInicio.isAfter(fechaFin)) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        List<HabitacionDTO> disponibles = util_Service.obtenerHabitacionesDisponiblesPorFechayTipo(fechaInicio, fechaFin, tipo);
+        return ResponseEntity.ok(disponibles);
+    }
+
 
 
     // Cambia el estado (PENDIENTE, CONFIRMADA, CHECK_IN, EN_CURSO, CHECK_OUT, CANCELADA, NO_VINO)

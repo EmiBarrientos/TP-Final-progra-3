@@ -66,4 +66,14 @@ public class ReservaCrearMapper {
         model.setObservaciones(dto.getObservaciones());
         return model;
     }
+
+    public Optional<int> toCantidadPasajeros (ReservaCrearDTO dto){
+        if (dto == null) {
+            return Optional.empty();
+        }
+        if(dto.getCantidadPasajeros()== null || dto.getCantidadPasajeros()<0){
+            return Optional.empty();
+        }
+        return Optional.of(dto.getCantidadPasajeros());
+    }
 }
