@@ -12,7 +12,11 @@ public class EmpleadoMapper {
             return null;
         }
         EmpleadoDTO dto = new EmpleadoDTO();
-        ReflectionMapper.actualizarCamposNoNulos(model, dto);
+        dto.setId(model.getId());
+        dto.setEstado(model.getEstado());
+        dto.setHorasTrabajadas(model.getHorasTrabajadas());
+        dto.setUsuario(model.getUsuario());
+       // ReflectionMapper.actualizarCamposNoNulos(model, dto);
         return dto;
     }
 

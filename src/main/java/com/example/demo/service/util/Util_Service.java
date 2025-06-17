@@ -24,7 +24,7 @@ public class Util_Service {
     private final EmpleadoRepository empleadoRepository;
     private final PasajeroRepository pasajeroRepository;
     private final Costo_ServicioRepository costoServicioRepository;
-    private final CostoHabitacionService costoHabitacionService;
+    private final CostoHabitacionRepository costoHabitacionRepository;
     private final HabitacionMapper habitacionMapper;
 
 
@@ -79,8 +79,7 @@ public class Util_Service {
         }
         // Calcular el costo base de la habitacion
         TipoHabitacion tipo = habitacion.getTipoHabitacion();
-        String tipoHabitacion = tipo.name();
-        CostoHabitacionDTO costoHabitacion = costoHabitacionService.findByTipoHabitacion(tipoHabitacion).get();
+        CostoHabitacion costoHabitacion = costoHabitacionRepository.findByTipoHabitacion(tipo);
         Double total = costoHabitacion.getCosto();
         // Sumar los costos de los servicios activos
         if (habitacion.getServicios() != null) {
