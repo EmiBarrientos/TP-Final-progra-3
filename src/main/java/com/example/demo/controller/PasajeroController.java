@@ -8,7 +8,6 @@ import com.example.demo.mapper.noIdenticos.PasajeroCrearMapper;
 import com.example.demo.model.Pasajero;
 import com.example.demo.service.PasajeroService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,41 +18,60 @@ import java.util.Optional;
 @RequestMapping("/api/pasajeros")
 @RequiredArgsConstructor
 public class PasajeroController {
-    @Autowired
-    private PasajeroService pasajeroService;
-    @Autowired
-    private PasajeroCrearMapper pasajeroCrearMapper;
-    @Autowired
-    private PasajeroMapper pasajeroMapper;
+
+    private final PasajeroService pasajeroService;
+    private final PasajeroCrearMapper pasajeroCrearMapper;
+    private final PasajeroMapper pasajeroMapper;
 
     @GetMapping
-    public List<Pasajero> getAllPasajeros() {
-        return pasajeroService.findAll();
+    public ResponseEntity<List<Pasajero>> getAllPasajeros() {
+        try {
+            return ResponseEntity.ok(pasajeroService.findAll());
+        } catch (Exception e) {
+            throw new RuntimeException("Error al obtener pasajeros: " + e.getMessage());
+        }
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<PasajeroDTO> getPasajeroById(@PathVariable Long id) {
-        Optional<PasajeroDTO> pasajero = pasajeroService.findById(id);
-        return pasajero.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        try {
+            Optional<PasajeroDTO> pasajero = pasajeroService.findById(id);
+            return pasajero.map(ResponseEntity::ok)
+                    .orElseGet(() -> ResponseEntity.notFound().build());
+        } catch (Exception e) {
+            throw new RuntimeException("Error al buscar pasajero por ID: " + e.getMessage());
+        }
     }
 
-
-
     @PostMapping
-    public PasajeroDTO createPasajero(@RequestBody PasajeroConUsuarioCreadoCrearDTO pasajero) {
-        //Pasajero pasajero = pasajeroCrearMapper.toEntity(pasajeroCrearDTO);
-        //PasajeroDTO pasajeroDTO = pasajeroMapper.toDto(pasajero);
-        return pasajeroService.save(pasajero).get();
+    public ResponseEntity<PasajeroDTO> createPasajero(@RequestBody PasajeroConUsuarioCreadoCrearDTO pasajero) {
+        try {
+            Optional<PasajeroDTO> creado = pasajeroService.save(pasajero);
+            return creado.map(ResponseEntity::ok)
+                    .orElseThrow(() -> new RuntimeException("No se pudo crear el pasajero"));
+        } catch (Exception e) {
+            throw new RuntimeException("Error al crear pasajero: " + e.getMessage());
+        }
     }
 
     @PutMapping("/{id}")
-    public PasajeroDTO updatePasajero(@PathVariable Long id, @RequestBody PasajeroCrearDTO pasajeroDetails) {
-        return pasajeroService.updatePasajero(id,pasajeroDetails).get();
+    public ResponseEntity<PasajeroDTO> updatePasajero(@PathVariable Long id, @RequestBody PasajeroCrearDTO pasajeroDetails) {
+        try {
+            Optional<PasajeroDTO> actualizado = pasajeroService.updatePasajero(id, pasajeroDetails);
+            return actualizado.map(ResponseEntity::ok)
+                    .orElseThrow(() -> new RuntimeException("No se pudo actualizar el pasajero"));
+        } catch (Exception e) {
+            throw new RuntimeException("Error al actualizar pasajero: " + e.getMessage());
+        }
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletePasajero(@PathVariable Long id) {
-        pasajeroService.deleteById(id);
-        return ResponseEntity.noContent().build();
+        try {
+            pasajeroService.deleteById(id);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            throw new RuntimeException("Error al eliminar pasajero: " + e.getMessage());
+        }
     }
 }

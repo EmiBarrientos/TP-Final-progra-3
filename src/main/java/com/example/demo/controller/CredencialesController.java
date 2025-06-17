@@ -18,13 +18,23 @@ public class CredencialesController {
 
     @GetMapping("/{id}")
     public ResponseEntity<Credenciales> getCredencialesById(@PathVariable Long id) {
-        Optional<Credenciales> credenciales = credencialesServiceOJO.findById(id);
-        return credenciales.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        try {
+            Optional<Credenciales> credenciales = credencialesServiceOJO.findById(id);
+            return credenciales.map(ResponseEntity::ok)
+                    .orElseGet(() -> ResponseEntity.notFound().build());
+        } catch (Exception e) {
+            throw new RuntimeException("Error al buscar credenciales por ID: " + e.getMessage());
+        }
     }
 
     @PostMapping
-    public Credenciales createCredenciales(@RequestBody Credenciales credenciales) {
-        return credencialesServiceOJO.save(credenciales);
+    public ResponseEntity<Credenciales> createCredenciales(@RequestBody Credenciales credenciales) {
+        try {
+            Credenciales creada = credencialesServiceOJO.save(credenciales);
+            return ResponseEntity.ok(creada);
+        } catch (Exception e) {
+            throw new RuntimeException("Error al crear credenciales: " + e.getMessage());
+        }
     }
 
     @PutMapping("/{id}")
@@ -41,17 +51,25 @@ public class CredencialesController {
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCredenciales(@PathVariable Long id) {
-        credencialesServiceOJO.deleteById(id);
-        return ResponseEntity.noContent().build();
+        try {
+            credencialesServiceOJO.deleteById(id);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            throw new RuntimeException("Error al eliminar credenciales: " + e.getMessage());
+        }
     }
 
     @GetMapping("/usuario/{nombreUsuario}")
     public ResponseEntity<Credenciales> getByNombreUsuario(@PathVariable String nombreUsuario) {
-        Credenciales credenciales = credencialesServiceOJO.findByNombreUsuario(nombreUsuario);
-        if (credenciales != null) {
-            return ResponseEntity.ok(credenciales);
-        } else {
-            return ResponseEntity.notFound().build();
+        try {
+            Credenciales credenciales = credencialesServiceOJO.findByNombreUsuario(nombreUsuario);
+            if (credenciales != null) {
+                return ResponseEntity.ok(credenciales);
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Error al buscar credenciales por nombre de usuario: " + e.getMessage());
         }
     }
 }

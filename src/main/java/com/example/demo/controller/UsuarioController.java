@@ -4,7 +4,6 @@ import com.example.demo.dto.UsuarioDTO;
 import com.example.demo.dto.crear.UsuarioCrearDTO;
 import com.example.demo.service.UsuarioService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -15,33 +14,58 @@ import java.util.Optional;
 @RequestMapping("/api/usuarios")
 @RequiredArgsConstructor
 public class UsuarioController {
-    @Autowired
-    private UsuarioService usuarioService;
+
+    private final UsuarioService usuarioService;
 
     @GetMapping
-    public List<UsuarioDTO> getAllUsuarios() {
-        return usuarioService.findAll();
+    public ResponseEntity<List<UsuarioDTO>> getAllUsuarios() {
+        try {
+            return ResponseEntity.ok(usuarioService.findAll());
+        } catch (Exception e) {
+            throw new RuntimeException("Error al obtener usuarios: " + e.getMessage());
+        }
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<UsuarioDTO> getUsuarioById(@PathVariable Long id) {
-        Optional<UsuarioDTO> usuario = usuarioService.findById(id);
-        return usuario.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        try {
+            Optional<UsuarioDTO> usuario = usuarioService.findById(id);
+            return usuario.map(ResponseEntity::ok)
+                    .orElse(ResponseEntity.notFound().build());
+        } catch (Exception e) {
+            throw new RuntimeException("Error al buscar usuario por ID: " + e.getMessage());
+        }
     }
 
     @PostMapping
-    public UsuarioDTO createUsuario(@RequestBody UsuarioCrearDTO usuario) {
-        return usuarioService.save(usuario).get();
+    public ResponseEntity<UsuarioDTO> createUsuario(@RequestBody UsuarioCrearDTO usuario) {
+        try {
+            Optional<UsuarioDTO> creado = usuarioService.save(usuario);
+            return creado.map(ResponseEntity::ok)
+                    .orElseThrow(() -> new RuntimeException("No se pudo crear el usuario"));
+        } catch (Exception e) {
+            throw new RuntimeException("Error al crear usuario: " + e.getMessage());
+        }
     }
 
     @PutMapping("/{id}")
-    public UsuarioDTO updateUsuario(@PathVariable Long id, @RequestBody UsuarioCrearDTO usuarioDetails) {
-        return usuarioService.updateUsuario(id,usuarioDetails).get();
+    public ResponseEntity<UsuarioDTO> updateUsuario(@PathVariable Long id, @RequestBody UsuarioCrearDTO usuarioDetails) {
+        try {
+            Optional<UsuarioDTO> actualizado = usuarioService.updateUsuario(id, usuarioDetails);
+            return actualizado.map(ResponseEntity::ok)
+                    .orElseThrow(() -> new RuntimeException("No se pudo actualizar el usuario"));
+        } catch (Exception e) {
+            throw new RuntimeException("Error al actualizar usuario: " + e.getMessage());
+        }
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUsuario(@PathVariable Long id) {
-        usuarioService.deleteById(id);
-        return ResponseEntity.noContent().build();
+        try {
+            usuarioService.deleteById(id);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            throw new RuntimeException("Error al eliminar usuario: " + e.getMessage());
+        }
     }
 }

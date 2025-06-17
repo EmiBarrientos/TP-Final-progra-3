@@ -20,48 +20,74 @@ public class CostoHabitacionController {
 
     @GetMapping
     public List<CostoHabitacionDTO> getAllCostosHabitacion() {
-        return costoHabitacionService.findAll();
+        try {
+            return costoHabitacionService.findAll();
+        }catch (Exception e){
+
+            throw new RuntimeException("Error al obtener todos los costos de habitaciones" + e.getMessage());
+        }
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<CostoHabitacionDTO> getCostoHabitacionById(@PathVariable Long id) {
-        Optional<CostoHabitacionDTO> costoHabitacion = costoHabitacionService.findById(id);
-        return costoHabitacion.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        try {
+            Optional<CostoHabitacionDTO> costoHabitacion = costoHabitacionService.findById(id);
+            return costoHabitacion.map(ResponseEntity::ok)
+                    .orElseGet(() -> ResponseEntity.notFound().build());
+        } catch (Exception e) {
+            throw new RuntimeException("Error al buscar costo de habitación por ID: " + e.getMessage());
+        }
     }
 
     @GetMapping("/tipo/{tipo}")
     public ResponseEntity<CostoHabitacionDTO> getCostoByTipoHabitacion(@PathVariable String tipo) {
-        CostoHabitacionDTO costoHabitacion = costoHabitacionService.findByTipoHabitacion(tipo).get();
-        if (costoHabitacion != null) {
-            return ResponseEntity.ok(costoHabitacion);
-        } else {
-            return ResponseEntity.notFound().build();
+        try {
+            Optional<CostoHabitacionDTO> costoHabitacion = costoHabitacionService.findByTipoHabitacion(tipo);
+            return costoHabitacion.map(ResponseEntity::ok)
+                    .orElseGet(() -> ResponseEntity.notFound().build());
+        } catch (Exception e) {
+            throw new RuntimeException("Error al buscar costo por tipo de habitación: " + e.getMessage());
         }
     }
 
     @PostMapping
     public CostoHabitacionDTO createCostoHabitacion(@RequestBody CostoHabitacionDTO costoHabitacion) {
-        return costoHabitacionService.save(costoHabitacion).get();
+        try {
+            return costoHabitacionService.save(costoHabitacion)
+                    .orElseThrow(() -> new RuntimeException("No se pudo crear el costo de habitación"));
+        } catch (Exception e) {
+            throw new RuntimeException("Error al crear costo de habitación: " + e.getMessage());
+        }
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<CostoHabitacionDTO> updateCostoHabitacion(@PathVariable Long id, @RequestBody CostoHabitacionDTO costoHabitacionDetails) {
-        Optional<CostoHabitacionDTO> costoHabitacion = costoHabitacionService.findById(id);
-        if (costoHabitacion.isPresent()) {
-            CostoHabitacionDTO updatedCostoHabitacion = costoHabitacion.get();
-            ReflectionMapper.actualizarCamposNoNulos(costoHabitacionDetails,updatedCostoHabitacion);
-            return ResponseEntity.ok(costoHabitacionService.save(updatedCostoHabitacion).get());
-        } else {
-            return ResponseEntity.notFound().build();
+        try {
+            Optional<CostoHabitacionDTO> costoHabitacion = costoHabitacionService.findById(id);
+            if (costoHabitacion.isPresent()) {
+                CostoHabitacionDTO updatedCosto = costoHabitacion.get();
+                ReflectionMapper.actualizarCamposNoNulos(costoHabitacionDetails, updatedCosto);
+                Optional<CostoHabitacionDTO> guardado = costoHabitacionService.save(updatedCosto);
+                return guardado.map(ResponseEntity::ok)
+                        .orElseThrow(() -> new RuntimeException("No se pudo guardar la actualización"));
+            } else {
+                return ResponseEntity.notFound().build();
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Error al actualizar costo de habitación: " + e.getMessage());
         }
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteCostoHabitacion(@PathVariable Long id) {
-        costoHabitacionService.deleteById(id);
-        return ResponseEntity.noContent().build();
+        try {
+            costoHabitacionService.deleteById(id);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            throw new RuntimeException("Error al eliminar costo de habitación: " + e.getMessage());
+        }
+    }
     }
 
 
 
-}
