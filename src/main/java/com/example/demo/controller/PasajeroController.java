@@ -46,8 +46,12 @@ public class PasajeroController {
         return pasajeroService.save(pasajero).get();
     }
 
+
+
+
     @PutMapping("/{id}")
-    public PasajeroDTO updatePasajero(@PathVariable Long id, @RequestBody PasajeroCrearDTO pasajeroDetails) {
+    public PasajeroDTO updatePasajero(@PathVariable Long id,
+                                      @RequestBody PasajeroConUsuarioCreadoCrearDTO pasajeroDetails) {
         return pasajeroService.updatePasajero(id,pasajeroDetails).get();
     }
 
