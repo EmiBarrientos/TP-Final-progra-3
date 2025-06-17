@@ -11,6 +11,67 @@ import org.springframework.web.bind.annotation.*;
 import java.time.LocalDate;
 import java.util.List;
 
+
+@RestController
+@RequestMapping("/util")
+@RequiredArgsConstructor
+public class UtilController {
+
+    private final Util_Service utilService;
+
+    // 1. obtenerHabitacionesDisponibles
+    @GetMapping("/habitaciones-disponibles")
+    public ResponseEntity<List<HabitacionDTO>> obtenerHabitacionesDisponibles(
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaInicio,
+            @RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaFin
+    ) {
+        return ResponseEntity.ok(utilService.obtenerHabitacionesDisponibles(fechaInicio, fechaFin));
+    }
+
+    // 2. asignarEmpleadoReserva
+    @PostMapping("/asignar-empleado")
+    public ResponseEntity<Void> asignarEmpleadoReserva(
+            @RequestParam Long reservaId,
+            @RequestParam Long empleadoId,
+            @RequestParam EstadoReserva accionEstado
+    ) {
+        utilService.asignarEmpleadoReserva(reservaId, empleadoId, accionEstado);
+        return ResponseEntity.ok().build();
+    }
+
+    // 3. asignarPasajeroAReserva
+    @PostMapping("/asignar-pasajero")
+    public ResponseEntity<Void> asignarPasajeroAReserva(
+            @RequestParam Long reservaId,
+            @RequestParam Long pasajeroId
+    ) {
+        utilService.asignarPasajeroAReserva(reservaId, pasajeroId);
+        return ResponseEntity.ok().build();
+    }
+
+    // 4. calcularCostoTotal
+    @PostMapping("/calcular-costo-total")
+    public ResponseEntity<Double> calcularCostoTotal(@RequestBody HabitacionDTO habitacionDTO) {
+        return ResponseEntity.ok(utilService.calcularCostoTotal(habitacionDTO));
+    }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
 @RestController
 @RequestMapping("/util")
 @RequiredArgsConstructor
@@ -63,4 +124,4 @@ public class UtilController {
         }
     }
 
-}
+}*/

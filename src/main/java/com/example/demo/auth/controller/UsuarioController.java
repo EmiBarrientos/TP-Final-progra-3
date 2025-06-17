@@ -1,8 +1,10 @@
 package com.example.demo.auth.controller;
 
 
+import com.example.demo.auth.dto.UsuarioDTO;
 import com.example.demo.auth.entity.Usuario;
 import com.example.demo.auth.service.UsuarioService;
+import com.example.demo.dto.crear.UsuarioCrearDTO;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,10 +25,27 @@ public class UsuarioController {
         return usuarioService.findAll();
     }
 
+
+    //Listar todos como DTO
+    @GetMapping("/dto")
+    public ResponseEntity<List<UsuarioDTO>> getAllUsuariosDTO() {
+        return ResponseEntity.ok(usuarioService.findAllDTO());
+    }
+
+
+
     @GetMapping("/{id}")
     public ResponseEntity<Usuario> getUsuarioById(@PathVariable Long id) {
         Optional<Usuario> usuario = usuarioService.findById(id);
         return usuario.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+    }
+
+    //Buscar por ID - DTO
+    @GetMapping("/dto/{id}")
+    public ResponseEntity<UsuarioDTO> getUsuarioByIdDTO(@PathVariable Long id) {
+        return usuarioService.findByIdDto(id)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
     /*
@@ -42,6 +61,13 @@ public class UsuarioController {
         return usuarioService.save(usuario);
     }
 
+    // Crear usuario desde DTO
+    @PostMapping("/dto")
+    public ResponseEntity<UsuarioDTO> createUsuarioDTO(@RequestBody UsuarioCrearDTO dto) {
+        return ResponseEntity.ok(usuarioService.saveDTO(dto).get());
+    }
+
+
     @PutMapping("/{id}")
     public ResponseEntity<Usuario> updateUsuario(@PathVariable Long id, @RequestBody Usuario usuarioDetails) {
         Optional<Usuario> usuario = usuarioService.findById(id);
@@ -54,25 +80,42 @@ public class UsuarioController {
         }
     }
 
+    // Actualizar usuario desde DTO
+    @PutMapping("/dto/{id}")
+    public ResponseEntity<UsuarioDTO> updateUsuarioDTO(
+            @PathVariable Long id,
+            @RequestBody UsuarioCrearDTO dto
+    ) {
+        return usuarioService.updateUsuarioDTO(id, dto)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
+    }
+
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUsuario(@PathVariable Long id) {
         usuarioService.deleteById(id);
         return ResponseEntity.noContent().build();
     }
 
-    /*
 
-       estos tres lo mismo
-       @PostMapping
-    public UsuarioDTO createUsuario(@RequestBody UsuarioCrearDTO usuario) {
-        return usuarioService.save(usuario).get();
+    //  Buscar por DNI
+    @GetMapping("/buscar/dni")
+    public ResponseEntity<UsuarioDTO> findByDni(@RequestParam String dni) {
+        return usuarioService.findByDni(dni)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
-    @PutMapping("/{id}")
-    public UsuarioDTO updateUsuario(@PathVariable Long id, @RequestBody UsuarioCrearDTO usuarioDetails) {
-        return usuarioService.updateUsuario(id,usuarioDetails).get();
+    //  Buscar por Email
+    @GetMapping("/buscar/email")
+    public ResponseEntity<UsuarioDTO> findByEmail(@RequestParam String email) {
+        return usuarioService.findByEmail(email)
+                .map(ResponseEntity::ok)
+                .orElse(ResponseEntity.notFound().build());
     }
 
+/*
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteUsuario(@PathVariable Long id) {
         usuarioService.deleteById(id);

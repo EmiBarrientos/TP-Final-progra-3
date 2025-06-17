@@ -93,6 +93,7 @@ public class HabitacionController {
         return ResponseEntity.noContent().build();
     }
 
+//***************************************************************
 /*
     @GetMapping("/{id}/costo")
     public ResponseEntity<?> calcularCostoHabitacion(@PathVariable Long id) {

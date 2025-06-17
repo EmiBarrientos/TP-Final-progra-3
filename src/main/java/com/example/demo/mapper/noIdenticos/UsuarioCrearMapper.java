@@ -14,6 +14,9 @@ public class UsuarioCrearMapper {
             return null;
         }
         UsuarioCrearDTO dto = new UsuarioCrearDTO();
+        dto.setPassword(model.getPassword());
+        dto.setUsername(model.getUsername());
+
         dto.setId(model.getId());
         dto.setDni(model.getDni());
         dto.setNombre(model.getNombre());
@@ -37,6 +40,9 @@ public class UsuarioCrearMapper {
             return null;
         }
         Usuario model = new Usuario();
+        model.setPassword(dto.getPassword());
+        model.setUsername(dto.getUsername());
+
         model.setId(dto.getId());
         model.setDni(dto.getDni());
         model.setNombre(dto.getNombre());

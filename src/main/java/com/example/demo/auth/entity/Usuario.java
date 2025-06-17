@@ -5,6 +5,7 @@ import com.example.demo.model.Credenciales;
 import com.example.demo.model.Empleado;
 import com.example.demo.model.Pasajero;
 import com.example.demo.model.embeddable.Direccion;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -60,9 +61,11 @@ public class Usuario implements UserDetails {
     @OneToOne(mappedBy = "usuario", cascade = CascadeType.ALL)
     private Credenciales credenciales;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "usuario")
     private Empleado empleado;
 
+    @JsonIgnore
     @OneToOne(mappedBy = "usuario")
     private Pasajero pasajero;
 
