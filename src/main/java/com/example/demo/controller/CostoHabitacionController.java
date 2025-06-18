@@ -39,12 +39,12 @@ public class CostoHabitacionController {
         }
     }
 
-    @PostMapping
+    @PostMapping("/save")
     public CostoHabitacionDTO createCostoHabitacion(@RequestBody CostoHabitacionDTO costoHabitacion) {
         return costoHabitacionService.save(costoHabitacion).get();
     }
 
-    @PutMapping("/{id}")
+    @PutMapping("/updatebyid/{id}")
     public ResponseEntity<CostoHabitacionDTO> updateCostoHabitacion(@PathVariable Long id, @RequestBody CostoHabitacionDTO costoHabitacionDetails) {
         Optional<CostoHabitacionDTO> costoHabitacion = costoHabitacionService.findById(id);
         if (costoHabitacion.isPresent()) {
@@ -56,7 +56,7 @@ public class CostoHabitacionController {
         }
     }
 
-    @DeleteMapping("/{id}")
+    @DeleteMapping("/delete/{id}")
     public ResponseEntity<Void> deleteCostoHabitacion(@PathVariable Long id) {
         costoHabitacionService.deleteById(id);
         return ResponseEntity.noContent().build();

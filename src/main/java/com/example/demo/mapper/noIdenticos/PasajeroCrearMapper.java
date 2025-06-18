@@ -1,20 +1,12 @@
 package com.example.demo.mapper.noIdenticos;
 
-<<<<<<< HEAD
-import com.example.demo.auth.dto.UsuarioDTO;
-=======
->>>>>>> da2898a8d0c8341af32c290337d8291892917938
 import com.example.demo.dto.crear.PasajeroCrearDTO;
 import com.example.demo.mapper.UsuarioMapper;
 import com.example.demo.model.Pasajero;
 import com.example.demo.auth.entity.Usuario;
-<<<<<<< HEAD
-import com.example.demo.auth.service.UsuarioService;
-=======
 import com.example.demo.model.embeddable.Direccion;
 import com.example.demo.auth.enums.Rol;
 import com.example.demo.auth.servicios.UsuarioService;
->>>>>>> da2898a8d0c8341af32c290337d8291892917938
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -70,13 +62,6 @@ public class PasajeroCrearMapper {
         if (dto == null) {
             return null;
         }
-<<<<<<< HEAD
-        Optional<UsuarioDTO> usuario = usuarioServicer.findByIdDto(dto.getUsuarioId());
-        if(usuario.isEmpty()){
-            return null;
-        }
-        Usuario usuarioModel = usuarioMapper.toEntity(usuario.get());
-=======
 
         Usuario modelU = new Usuario();
 
@@ -103,7 +88,6 @@ public class PasajeroCrearMapper {
         modelU.setRol(Rol.valueOf(dto.getRol()));
 
 
->>>>>>> da2898a8d0c8341af32c290337d8291892917938
         Pasajero model = new Pasajero();
         model.setId(dto.getId());
         model.setEstado(dto.getEstado());

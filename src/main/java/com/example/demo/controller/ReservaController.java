@@ -108,4 +108,9 @@ public class ReservaController {
             throw new RuntimeException("Error al eliminar la reserva: " + e.getMessage());
         }
     }
+
+    @PostMapping("/emi")
+    public String welcome(){
+        return "Bienvenido a EMI";
+    }
 }

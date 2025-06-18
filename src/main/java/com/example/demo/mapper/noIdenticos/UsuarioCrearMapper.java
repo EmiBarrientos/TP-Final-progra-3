@@ -21,13 +21,8 @@ public class UsuarioCrearMapper {
         dto.setApellido(model.getApellido());
         dto.setTelefono(model.getTelefono());
         dto.setEmail(model.getEmail());
-<<<<<<< HEAD
-        dto.setRol(model.getRol()); // administrador, empleado, pasajero
-        //private Direccion direccion;
-=======
 
         // direccion
->>>>>>> da2898a8d0c8341af32c290337d8291892917938
         dto.setCalle(model.getDireccion().getCalle());
         dto.setNumero(model.getDireccion().getNumero());
         dto.setCiudad(model.getDireccion().getCiudad());
@@ -78,7 +73,7 @@ public class UsuarioCrearMapper {
         model.setApellido(dto.getApellido());
         model.setTelefono(dto.getTelefono());
         model.setEmail(dto.getEmail());
-        model.setRol(dto.getRol()); // administrador, empleado, pasajero
+        model.setPermisos(dto.getPermisos()); // administrador, empleado, pasajero
         //private Direccion direccion;
         Direccion direccion = new Direccion();
         direccion.setCalle(dto.getCalle());

@@ -10,10 +10,6 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
-<<<<<<< HEAD
-import org.springframework.security.web.authentication.WebAuthenticationDetails;
-=======
->>>>>>> da2898a8d0c8341af32c290337d8291892917938
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
@@ -32,22 +28,9 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
 
-<<<<<<< HEAD
-        String path = request.getServletPath();
-        if (path.startsWith("/auth")) {
-            filterChain.doFilter(request, response);
-            return;
-        }
-
         final String token =getTokenFromRequest(request);
         final String username;
 
-
-=======
-        final String token =getTokenFromRequest(request);
-        final String username;
-
->>>>>>> da2898a8d0c8341af32c290337d8291892917938
         if(token ==null){
             filterChain.doFilter(request,response);
             return;

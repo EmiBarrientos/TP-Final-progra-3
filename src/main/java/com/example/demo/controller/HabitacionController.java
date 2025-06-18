@@ -77,7 +77,7 @@ public class HabitacionController {
         }
     }
 
-    @PostMapping
+    @PostMapping("/save")
     public ResponseEntity<?> createHabitacion(@Valid @RequestBody HabitacionCrearDTO habitacionDTO,
                                               BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
@@ -131,6 +131,7 @@ public class HabitacionController {
 
 
 
+//***************************************************************
 /*
     @GetMapping("/{id}/costo")
     public ResponseEntity<?> calcularCostoHabitacion(@PathVariable Long id) {

@@ -1,15 +1,5 @@
 package com.example.demo.mapper.noIdenticos;
 
-<<<<<<< HEAD
-import com.example.demo.auth.dto.UsuarioDTO;
-import com.example.demo.dto.crear.EmpleadoCrearDTO;
-import com.example.demo.mapper.UsuarioMapper;
-import com.example.demo.model.Empleado;
-
-
-import com.example.demo.auth.entity.Usuario;
-import com.example.demo.auth.service.UsuarioService;
-=======
 import com.example.demo.dto.crear.EmpleadoCrearDTO;
 import com.example.demo.mapper.UsuarioMapper;
 import com.example.demo.model.Empleado;
@@ -17,7 +7,6 @@ import com.example.demo.auth.entity.Usuario;
 import com.example.demo.model.embeddable.Direccion;
 import com.example.demo.auth.enums.Rol;
 import com.example.demo.auth.servicios.UsuarioService;
->>>>>>> da2898a8d0c8341af32c290337d8291892917938
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -73,16 +62,8 @@ public class EmpleadoCrearMapper {
         if (dto == null) {
             return null;
         }
-<<<<<<< HEAD
-        Optional<UsuarioDTO> usuario = usuarioServicer.findByIdDto(dto.getUsuarioId());
-        if(usuario.isEmpty()){
-            return null;
-        }
-        Usuario usuarioModel = usuarioMapper.toEntity(usuario.get());
-=======
 
 
->>>>>>> da2898a8d0c8341af32c290337d8291892917938
         Empleado model = new Empleado();
         model.setId(dto.getId());
         model.setEstado(dto.getEstado());

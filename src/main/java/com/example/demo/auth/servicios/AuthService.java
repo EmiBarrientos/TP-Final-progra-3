@@ -12,6 +12,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -21,12 +22,21 @@ public class AuthService {
     private final UsuarioRepository usuarioRepository;
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
+    private final PasswordEncoder passwordEncoder;
+
 
     public AuthResponse login(LoginRequest request){
-        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(request.getUsername(), request.getPassword()));
+        authenticationManager.authenticate(
+                new UsernamePasswordAuthenticationToken(
+                        request.getUsername(),
+                        request.getPassword()));
+
+
         UserDetails user=usuarioRepository.findByUsername(request.getUsername())
                 .orElseThrow(()-> new RuntimeException("usuario no encontrado"));
+
         String token= jwtService.getToken(user);
+
         return AuthResponse.builder()
                 .token(token)
                 .build();
@@ -34,13 +44,14 @@ public class AuthService {
     public AuthResponse register(RegisterRequest request){
         Usuario usuario= Usuario.builder()
                 .username(request.getUsername())
-                .password(request.getPassword())
+                .password(passwordEncoder.encode(request.getPassword()))
                 .dni(request.getDni())
                 .nombre(request.getNombre())
                 .apellido(request.getApellido())
                 .email(request.getEmail())
-                .rol(Rol.USUARIO)
+                .rol(request.getRol())
                 .build();
+        System.out.println("Rol recibido: " + request.getRol());
 
         usuarioRepository.save(usuario);
 

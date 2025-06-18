@@ -1,14 +1,5 @@
 package com.example.demo.auth.entity;
 
-<<<<<<< HEAD
-import com.example.demo.auth.user.Rol;
-import com.example.demo.model.Credenciales;
-import com.example.demo.model.Empleado;
-import com.example.demo.model.Pasajero;
-import com.example.demo.model.embeddable.Direccion;
-import jakarta.persistence.*;
-import lombok.*;
-=======
 import com.example.demo.model.Empleado;
 import com.example.demo.model.Pasajero;
 import com.example.demo.model.embeddable.Direccion;
@@ -21,7 +12,6 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
->>>>>>> da2898a8d0c8341af32c290337d8291892917938
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -51,13 +41,10 @@ public class Usuario implements UserDetails {
     @Column(nullable = false)
     private String apellido;
     private String telefono;
-<<<<<<< HEAD
-=======
 
 
     @Email(message = "El email debe tener un formato válido")
     @NotBlank(message = "El email no puede estar vacío")
->>>>>>> da2898a8d0c8341af32c290337d8291892917938
     @Column(nullable = false, unique = true)
     private String email;
 
@@ -67,11 +54,6 @@ public class Usuario implements UserDetails {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Rol rol; // administrador, empleado, pasajero
-
-<<<<<<< HEAD
-=======
-
-
 
     @JsonIgnore
     @OneToOne(mappedBy = "usuario")
@@ -83,7 +65,7 @@ public class Usuario implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(rol.name()));
+        return List.of(new SimpleGrantedAuthority("ROLE_" + rol.name()));
     }
 
 
@@ -129,7 +111,6 @@ public class Usuario {
     @Column(nullable = false)
     private String permisos; // administrador, empleado, pasajero
 
->>>>>>> da2898a8d0c8341af32c290337d8291892917938
     @Column(name = "cuenta_no_expirada")
     private boolean cuentaNoExpirada = true;
 
@@ -149,43 +130,4 @@ public class Usuario {
 
     @OneToOne(mappedBy = "usuario")
     private Pasajero pasajero;
-<<<<<<< HEAD
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(rol.name()));
-    }
-
-    @Override
-    public String getPassword() {
-        return null;
-    }
-
-    @Override
-    public String getUsername() {
-        return null;
-    }
-
-    @Override
-    public boolean isAccountNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isAccountNonLocked() {
-        return true;
-    }
-
-    @Override
-    public boolean isCredentialsNonExpired() {
-        return true;
-    }
-
-    @Override
-    public boolean isEnabled() {
-        return true;
-    }
-}
-=======
 */
->>>>>>> da2898a8d0c8341af32c290337d8291892917938
