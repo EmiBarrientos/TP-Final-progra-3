@@ -16,7 +16,6 @@ public class EmpleadoConUsuarioCreadoCrearDTO {
 
     private Long id;
     private Long usuarioId;
-
     private Integer horasTrabajadas;
     private EstadoEmpleado estado;
 

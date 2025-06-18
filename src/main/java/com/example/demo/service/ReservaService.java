@@ -44,18 +44,19 @@ public class ReservaService {
         return Optional.ofNullable(reservaDTO);
     }
 
-    public Optional <ReservaDTO> save(ReservaCrearDTO reservaCrearDTO) {
+    public Optional <Reserva> save(ReservaCrearDTO reservaCrearDTO) {
         Reserva reserva = reservaCrearMapper.toEntity(reservaCrearDTO);
         Optional<Integer> cantidad = reservaCrearMapper.toCantidadPasajeros(reservaCrearDTO);
         if(cantidad.isEmpty()){
             throw new DatosInvalidosReserva("Cantidad de Personas es obligatorio y positivo");
         }
         int cantidadDePersonas = cantidad.get();
-        if(cantidadDePersonas<reserva.getHabitacion().getCapacidad()){
+        if(cantidadDePersonas>reserva.getHabitacion().getCapacidad()){
             throw new DatosInvalidosReserva("La cantidad de personas supera la capacidad de la Habitacion");
         }
-        return Optional.ofNullable(
-                reservaMapper.toDto(reservaRepository.save(reserva))
+        return Optional.of(
+                reservaRepository.save(reserva)
+                //reservaMapper.toDto(reservaRepository.save(reserva))
         );
     }
 

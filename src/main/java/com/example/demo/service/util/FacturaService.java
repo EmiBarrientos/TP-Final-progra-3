@@ -21,6 +21,7 @@ public class FacturaService {
 
     @Autowired private ReservaRepository reservaRepo;
     @Autowired private FacturaRepository facturaRepo;
+    @Autowired private Util_Service utilService;
     /**
      * Genera un FacturaDTO en memoria (no persiste en BD).
      * Recorre directamente el Map<CostoServAdicional,Integer>.
@@ -71,6 +72,8 @@ public class FacturaService {
         );
         dto.setFechaEmision(LocalDate.now());
         dto.setItems(items);
+        Double totalHabitacion = utilService.calcularCostoTotal(reserva.getHabitacion().getNumeroHabitacion()).doubleValue();
+        total = total +totalHabitacion;
         dto.setTotal(total);
 
         return dto;

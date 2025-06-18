@@ -28,9 +28,7 @@ public class HabitacionCrearMapper {
         dto.setWifi(servicios.get(ServicioEnum.WIFI));
         dto.setTvCable(servicios.get(ServicioEnum.TV_CABLE));
         dto.setAireAcondicionado(servicios.get(ServicioEnum.AIRE_ACONDICIONADO));
-        dto.setDesayuno(servicios.get(ServicioEnum.DESAYUNO));
         dto.setCajaFuerte(servicios.get(ServicioEnum.CAJA_FUERTE));
-        dto.setPileta(servicios.get(ServicioEnum.PILETA));
         dto.setHidromasaje(servicios.get(ServicioEnum.HIDROMASAJE));
 
         return dto;
@@ -58,9 +56,7 @@ public class HabitacionCrearMapper {
         servicios.put(ServicioEnum.WIFI, dto.isWifi());
         servicios.put(ServicioEnum.TV_CABLE, dto.isTvCable());
         servicios.put(ServicioEnum.AIRE_ACONDICIONADO, dto.isAireAcondicionado());
-        servicios.put(ServicioEnum.DESAYUNO, dto.isDesayuno());
         servicios.put(ServicioEnum.CAJA_FUERTE, dto.isCajaFuerte());
-        servicios.put(ServicioEnum.PILETA, dto.isPileta());
         servicios.put(ServicioEnum.HIDROMASAJE, dto.isHidromasaje());
         habitacion.setServicios(servicios);
 

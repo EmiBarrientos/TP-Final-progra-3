@@ -1,5 +1,7 @@
 package com.example.demo.dto;
 
+import com.example.demo.model.enums.ServAdicionalEnum;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -11,9 +13,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 public class CostoServAdicionalDTO {
     private Long id;
-    private String nombreServicioAdicional;
-    private Integer cantidad;
-    private LocalDate fechaConsumo;
-    private Double precioUnitario;
-    private Double precioTotal;
+    private ServAdicionalEnum nombre;
+    private Double precio;
+
 }

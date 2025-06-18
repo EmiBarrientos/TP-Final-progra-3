@@ -1,5 +1,6 @@
 package com.example.demo.dto;
 
+import com.example.demo.auth.dto.UsuarioDTO;
 import com.example.demo.auth.entity.Usuario;
 import com.example.demo.model.enums.EstadoEmpleado;
 import lombok.AllArgsConstructor;

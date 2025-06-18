@@ -53,15 +53,26 @@ public class UsuarioCrearMapper {
         model.setTelefono(dto.getTelefono());
         model.setEmail(dto.getEmail());
 
-        // direccion
-        Direccion direccion = new Direccion();
-        direccion.setCalle(dto.getCalle());
-        direccion.setNumero(dto.getNumero());
-        direccion.setCiudad(dto.getCiudad());
-        direccion.setProvincia(dto.getProvincia());
-        direccion.setCodigoPostal(dto.getCodigoPostal());
-        direccion.setPais(dto.getPais());
-        model.setDireccion(direccion);
+        if (dto.getCalle() != null ||
+                dto.getNumero() != null ||
+                dto.getCiudad() != null ||
+                dto.getProvincia() != null ||
+                dto.getCodigoPostal() != null ||
+                dto.getPais() != null) {
+
+            Direccion direccion = new Direccion();
+            direccion.setCalle(dto.getCalle());
+            direccion.setNumero(dto.getNumero());
+            direccion.setCiudad(dto.getCiudad());
+            direccion.setProvincia(dto.getProvincia());
+            direccion.setCodigoPostal(dto.getCodigoPostal());
+            direccion.setPais(dto.getPais());
+
+            model.setDireccion(direccion);
+        } else {
+            model.setDireccion(null);
+        }
+
         model.setUsername(dto.getUsername());
         model.setPassword(dto.getPassword());
         model.setRol(dto.getRol());

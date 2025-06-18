@@ -2,6 +2,7 @@ package com.example.demo.model;
 
 import com.example.demo.auth.entity.Usuario;
 import com.example.demo.model.enums.EstadoPasajero;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -29,5 +30,6 @@ public class Pasajero {
     private EstadoPasajero estado;
 
     @OneToMany(mappedBy = "pasajero")
+    @JsonManagedReference
     private List<Reserva> reservas;
 }

@@ -68,4 +68,27 @@ public class UsuarioController {
             throw new RuntimeException("Error al eliminar usuario: " + e.getMessage());
         }
     }
+
+    @GetMapping("/dni/{dni}")
+    public ResponseEntity<UsuarioDTO> getUsuarioByDni(@PathVariable String dni) {
+        try {
+            Optional<UsuarioDTO> usuario = usuarioService.findByDni(dni);
+            return usuario.map(ResponseEntity::ok)
+                    .orElse(ResponseEntity.notFound().build());
+        } catch (Exception e) {
+            throw new RuntimeException("Error al buscar usuario por DNI: " + e.getMessage());
+        }
+    }
+
+    @GetMapping("/email/{email}")
+    public ResponseEntity<UsuarioDTO> getUsuarioByEmail(@PathVariable String email) {
+        try {
+            Optional<UsuarioDTO> usuario = usuarioService.findByEmail(email);
+            return usuario.map(ResponseEntity::ok)
+                    .orElse(ResponseEntity.notFound().build());
+        } catch (Exception e) {
+            throw new RuntimeException("Error al buscar usuario por email: " + e.getMessage());
+        }
+    }
+
 }

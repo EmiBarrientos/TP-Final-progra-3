@@ -24,5 +24,18 @@ public class ReservaCrearDTO {
         // private EstadoReserva estadoReserva;
         //private EmpleadoAccionReserva empleadoAccionReserva
 
+    // listado de inter de servicios adicionales
+    private Integer masajes; // MASAJES,
+    private Integer spa;
+    private Integer  pileta; //PILETA,
+    private Integer  cena; //CENA,
+    private Integer  almuerzo; // ALMUERZO,
+    private Integer desayuno; // DESAYUNO,
+    private Integer facial; // FACIAL,
+    private Integer manicura; // MANICURA,
+    private Integer lavanderia; // LAVANDERIA
+
+
+
     private int cantidadPasajeros; // solo en el dto crear
 }

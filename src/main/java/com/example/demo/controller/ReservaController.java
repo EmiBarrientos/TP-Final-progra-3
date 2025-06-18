@@ -2,6 +2,7 @@ package com.example.demo.controller;
 
 import com.example.demo.dto.ReservaDTO;
 import com.example.demo.dto.crear.ReservaCrearDTO;
+import com.example.demo.model.Reserva;
 import com.example.demo.model.enums.EstadoReserva;
 import com.example.demo.service.ReservaService;
 import lombok.RequiredArgsConstructor;
@@ -78,9 +79,9 @@ public class ReservaController {
     }
 
     @PostMapping
-    public ResponseEntity<ReservaDTO> createReserva(@RequestBody ReservaCrearDTO reservaCrearDTO) {
+    public ResponseEntity<Reserva> createReserva(@RequestBody ReservaCrearDTO reservaCrearDTO) {
         try {
-            Optional<ReservaDTO> creada = reservaService.save(reservaCrearDTO);
+            Optional<Reserva> creada = reservaService.save(reservaCrearDTO);
             return creada.map(ResponseEntity::ok)
                     .orElseThrow(() -> new RuntimeException("No se pudo crear la reserva"));
         } catch (Exception e) {
@@ -108,4 +109,19 @@ public class ReservaController {
             throw new RuntimeException("Error al eliminar la reserva: " + e.getMessage());
         }
     }
+
+
+    @GetMapping("/habitaciones-reservadas")
+    public ResponseEntity<List<Long>> getHabitacionesReservadas(
+            @RequestParam LocalDate inicio,
+            @RequestParam LocalDate fin) {
+        try {
+            return ResponseEntity.ok(reservaService.obtenerHabitacionesReservadas(inicio, fin));
+        } catch (Exception e) {
+            throw new RuntimeException("Error al obtener habitaciones reservadas: " + e.getMessage());
+        }
+    }
+
+
+
 }

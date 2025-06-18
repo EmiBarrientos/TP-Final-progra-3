@@ -3,6 +3,7 @@ package com.example.demo.model;
 import com.example.demo.model.enums.EstadoHabitacion;
 import com.example.demo.model.enums.ServicioEnum;
 import com.example.demo.model.enums.TipoHabitacion;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -43,6 +44,7 @@ public class Habitacion {
     private Map<ServicioEnum, Boolean> servicios = new EnumMap<>(ServicioEnum.class);
 
     @OneToMany(mappedBy = "habitacion")
+    @JsonManagedReference
     private List<Reserva> reservas;
 
 

@@ -6,6 +6,8 @@ import com.example.demo.mapper.HabitacionMapper;
 import com.example.demo.mapper.noIdenticos.HabitacionCrearMapper;
 import com.example.demo.mapper.util.ReflectionMapper;
 import com.example.demo.model.Habitacion;
+import com.example.demo.model.enums.EstadoHabitacion;
+import com.example.demo.model.enums.TipoHabitacion;
 import com.example.demo.repository.HabitacionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -55,12 +57,14 @@ public class HabitacionService {
 
     // Métodos de búsqueda específicos
     public List<HabitacionDTO> findByEstado(String estado) {
-        return habitacionRepository.findByEstado(estado)
+        EstadoHabitacion estadoEnum = EstadoHabitacion.valueOf(estado.toUpperCase());
+        return habitacionRepository.findByEstado(estadoEnum)
                 .stream().map(p->habitacionMapper.toDto(p)).toList();
     }
 
     public List<HabitacionDTO> findByTipoHabitacion(String tipo) {
-        return habitacionRepository.findByTipoHabitacion(tipo)
+        TipoHabitacion tipoHabitacion = TipoHabitacion.valueOf(tipo.toUpperCase());
+        return habitacionRepository.findByTipoHabitacion(tipoHabitacion)
                 .stream().map(p->habitacionMapper.toDto(p)).toList();
     }
 

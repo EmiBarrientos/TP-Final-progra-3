@@ -1,5 +1,7 @@
 package com.example.demo.dto;
 
+import com.example.demo.model.Reserva;
+import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -18,3 +20,6 @@ public class FacturaDTO {
     private List<ItemFacturaDTO> items;
     private Double total;
 }
+
+
+
