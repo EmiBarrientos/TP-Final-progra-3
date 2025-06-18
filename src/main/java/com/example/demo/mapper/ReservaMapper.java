@@ -1,10 +1,8 @@
 package com.example.demo.mapper;
 
 import com.example.demo.dto.ReservaDTO;
-import com.example.demo.dto.ServAdicionalDTO;
-import com.example.demo.dto.UsuarioDTO;
 import com.example.demo.mapper.util.ReflectionMapper;
-import com.example.demo.model.*;
+import com.example.demo.model.Reserva;
 import org.springframework.stereotype.Component;
 
 @Component
