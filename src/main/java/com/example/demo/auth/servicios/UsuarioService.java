@@ -1,12 +1,12 @@
-package com.example.demo.service;
+package com.example.demo.auth.servicios;
 
-import com.example.demo.dto.UsuarioDTO;
+import com.example.demo.auth.dto.UsuarioDTO;
 import com.example.demo.dto.crear.UsuarioCrearDTO;
 import com.example.demo.mapper.UsuarioMapper;
 import com.example.demo.mapper.noIdenticos.UsuarioCrearMapper;
 import com.example.demo.mapper.util.ReflectionMapper;
-import com.example.demo.model.Usuario;
-import com.example.demo.repository.UsuarioRepository;
+import com.example.demo.auth.entity.Usuario;
+import com.example.demo.auth.repository.UsuarioRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -44,7 +44,7 @@ public class UsuarioService {
 
         Usuario usuario = usuarioCrearMapper.toEntity(usuarioCrearDto);
         Usuario savedUsuario = usuarioRepository.save(usuario);
-        return Optional.ofNullable(usuarioMapper.toDto(savedUsuario));
+        return Optional.of(usuarioMapper.toDto(savedUsuario));
     }
 
     public void deleteById(Long id) {

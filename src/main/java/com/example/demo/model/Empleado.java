@@ -1,5 +1,6 @@
 package com.example.demo.model;
 
+import com.example.demo.auth.entity.Usuario;
 import com.example.demo.model.enums.EstadoEmpleado;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;

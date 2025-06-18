@@ -1,8 +1,8 @@
 package com.example.demo.mapper.noIdenticos;
 
-import com.example.demo.dto.crear.PasajeroConUsuarioCreadoCrearDTO;
+import com.example.demo.dto.crear.EmpleadoConUsuarioCreadoCrearDTO;
 import com.example.demo.mapper.UsuarioMapper;
-import com.example.demo.model.Pasajero;
+import com.example.demo.model.Empleado;
 import com.example.demo.auth.entity.Usuario;
 import com.example.demo.auth.repository.UsuarioRepository;
 import com.example.demo.auth.servicios.UsuarioService;
@@ -12,14 +12,14 @@ import org.springframework.stereotype.Component;
 import java.util.Optional;
 
 @Component
-public class PasajeroConUsuarioCreadoCrearMapper {
+public class EmpleadoConUsuarioCreadoCrearMapper {
 
     private final UsuarioRepository repositoryUsuario;
     private final UsuarioService usuarioServicer;
     private final UsuarioMapper usuarioMapper;
 
     @Autowired
-    public PasajeroConUsuarioCreadoCrearMapper(UsuarioService usuarioServicer,
+    public EmpleadoConUsuarioCreadoCrearMapper(UsuarioService usuarioServicer,
                                                UsuarioMapper usuarioMapper,
                                                UsuarioRepository repositoryUsuario) {
         this.usuarioServicer = usuarioServicer;
@@ -28,18 +28,19 @@ public class PasajeroConUsuarioCreadoCrearMapper {
     }
 
 
-    public PasajeroConUsuarioCreadoCrearDTO toDto(Pasajero model) {
+    public EmpleadoConUsuarioCreadoCrearDTO toDto(Empleado model) {
         if (model == null) {
             return null;
         }
-        PasajeroConUsuarioCreadoCrearDTO dto = new PasajeroConUsuarioCreadoCrearDTO();
+        EmpleadoConUsuarioCreadoCrearDTO dto = new EmpleadoConUsuarioCreadoCrearDTO();
         dto.setId(model.getId());
         dto.setUsuarioId(model.getUsuario().getId());
         dto.setEstado(model.getEstado());
+        dto.setHorasTrabajadas(model.getHorasTrabajadas());
         return dto;
     }
 
-    public Pasajero toEntity(PasajeroConUsuarioCreadoCrearDTO dto) {
+    public Empleado toEntity(EmpleadoConUsuarioCreadoCrearDTO dto) {
 
         if (dto == null) {
             return null;
@@ -49,9 +50,10 @@ public class PasajeroConUsuarioCreadoCrearMapper {
         if(modelUOptional.isPresent()) {
 
             Usuario modelU = modelUOptional.get();
-            Pasajero model = new Pasajero();
+            Empleado model = new Empleado();
             model.setId(dto.getId());
             model.setEstado(dto.getEstado());
+            model.setHorasTrabajadas(dto.getHorasTrabajadas());
             model.setUsuario(modelU);
 
             return model;

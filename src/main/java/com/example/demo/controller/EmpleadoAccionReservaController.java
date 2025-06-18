@@ -21,30 +21,56 @@ public class EmpleadoAccionReservaController {
 
 
     @GetMapping
-    public List<EmpleadoAccionReservaDTO> getAllEmpleados() {
-        return service.findAll();
+    public ResponseEntity <List<EmpleadoAccionReservaDTO>> getAllEmpleados() {
+
+        try {
+            return ResponseEntity.ok(service.findAll());
+        } catch (Exception e) {
+            throw new RuntimeException("Error al obtener la lista de empleados: " + e.getMessage());
+        }
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<EmpleadoAccionReservaDTO> getEmpleadoById(@PathVariable Long id) {
-        Optional<EmpleadoAccionReservaDTO> empleado = service.findById(id);
-        return empleado.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        try {
+            Optional<EmpleadoAccionReservaDTO> empleado = service.findById(id);
+            return empleado.map(ResponseEntity::ok)
+                    .orElseGet(() -> ResponseEntity.notFound().build());
+        } catch (Exception e) {
+            throw new RuntimeException("Error al buscar empleado por ID: " + e.getMessage());
+        }
     }
 
     @PostMapping
-    public EmpleadoAccionReservaDTO createEmpleado(@RequestBody EmpleadoAccionReservaCrearDTO empleado) {
-        return service.save(empleado).get();
+    public ResponseEntity <EmpleadoAccionReservaDTO> createEmpleado(@RequestBody EmpleadoAccionReservaCrearDTO empleado) {
+        try {
+            Optional<EmpleadoAccionReservaDTO> creado = service.save(empleado);
+            return creado.map(ResponseEntity::ok)
+                    .orElseThrow(() -> new RuntimeException("No se pudo crear el empleado"));
+        } catch (Exception e) {
+            throw new RuntimeException("Error al crear empleado: " + e.getMessage());
+        }
     }
 
     @PutMapping("/{id}")
-    public EmpleadoAccionReservaDTO updateEmpleado(@PathVariable Long id, @RequestBody EmpleadoAccionReservaCrearDTO empleadoDetails) {
-        return service.updateEmpleado(id,empleadoDetails).get();
+    public  ResponseEntity <EmpleadoAccionReservaDTO> updateEmpleado(@PathVariable Long id, @RequestBody EmpleadoAccionReservaCrearDTO empleadoDetails) {
+        try {
+            Optional<EmpleadoAccionReservaDTO> actualizado = service.updateEmpleado(id, empleadoDetails);
+            return actualizado.map(ResponseEntity::ok)
+                    .orElseThrow(() -> new RuntimeException("No se pudo actualizar el empleado"));
+        } catch (Exception e) {
+            throw new RuntimeException("Error al actualizar empleado: " + e.getMessage());
+        }
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteEmpleado(@PathVariable Long id) {
-        service.deleteById(id);
-        return ResponseEntity.noContent().build();
+        try {
+            service.deleteById(id);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            throw new RuntimeException("Error al eliminar empleado: " + e.getMessage());
+        }
     }
 
 }
