@@ -36,8 +36,11 @@ public class HabitacionService {
     }
 
     public Optional<HabitacionDTO> findById(Long id) {
-        HabitacionDTO respuesta = habitacionMapper.toDto(habitacionRepository.findById(id).get());
-        return Optional.ofNullable(respuesta);
+        Optional <Habitacion> habitacion = Optional.of(habitacionRepository.findById(id).get());
+        if(!habitacion.isEmpty()){
+        HabitacionDTO respuesta = habitacionMapper.toDto(habitacion.get());
+        return Optional.of(respuesta);}
+        return Optional.empty();
     }
 
     public Optional<HabitacionDTO> save(HabitacionCrearDTO habitacionDTO) {

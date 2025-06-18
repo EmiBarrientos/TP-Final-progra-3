@@ -10,7 +10,10 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.web.SecurityFilterChain;
+<<<<<<< HEAD
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+=======
+>>>>>>> da2898a8d0c8341af32c290337d8291892917938
 
 @Configuration
 @EnableWebSecurity
@@ -20,7 +23,11 @@ public class SecurityConfig {
     private final JwtAuthenticationFilter jwtAuthenticationFilter;
     private final AuthenticationProvider authenticationProvider;
 
+<<<<<<< HEAD
     @Bean
+=======
+/*    @Bean
+>>>>>>> da2898a8d0c8341af32c290337d8291892917938
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http
                 .csrf(csrf->   ///Cross-site -request Forgery
@@ -35,7 +42,26 @@ public class SecurityConfig {
                 ///.addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
                 .build();
     }
+<<<<<<< HEAD
 
 
+=======
+*/
+
+
+    @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        return http
+                .csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(auth -> auth
+                        .anyRequest().permitAll()  // 👉 Permitir todas las rutas
+                )
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
+                .build(); // 👈 NO seteás authenticationProvider ni filtros
+    }
+
+>>>>>>> da2898a8d0c8341af32c290337d8291892917938
 
 }

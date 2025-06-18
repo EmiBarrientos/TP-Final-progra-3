@@ -5,7 +5,6 @@ import com.example.demo.dto.crear.ReservaCrearDTO;
 import com.example.demo.model.enums.EstadoReserva;
 import com.example.demo.service.ReservaService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -17,64 +16,96 @@ import java.util.Optional;
 @RequestMapping("/api/reservas")
 @RequiredArgsConstructor
 public class ReservaController {
-    @Autowired
-    private ReservaService reservaService;
+
+    private final ReservaService reservaService;
 
     @GetMapping
-    public List<ReservaDTO> getAllReservas() {
-        return reservaService.findAll();
+    public ResponseEntity<List<ReservaDTO>> getAllReservas() {
+        try {
+            return ResponseEntity.ok(reservaService.findAll());
+        } catch (Exception e) {
+            throw new RuntimeException("Error al obtener las reservas: " + e.getMessage());
+        }
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<ReservaDTO> getReservaById(@PathVariable Long id) {
-        Optional<ReservaDTO> reserva = reservaService.findById(id);
-        return reserva.map(ResponseEntity::ok).orElseGet(() -> ResponseEntity.notFound().build());
+        try {
+            Optional<ReservaDTO> reserva = reservaService.findById(id);
+            return reserva.map(ResponseEntity::ok)
+                    .orElseGet(() -> ResponseEntity.notFound().build());
+        } catch (Exception e) {
+            throw new RuntimeException("Error al buscar la reserva por ID: " + e.getMessage());
+        }
     }
 
     @GetMapping("/fechas")
-    public List<ReservaDTO> getReservasBetweenDates(
+    public ResponseEntity<List<ReservaDTO>> getReservasBetweenDates(
             @RequestParam LocalDate inicio,
             @RequestParam LocalDate fin) {
-        return reservaService.findByFechaInicioBetween(inicio, fin);
+        try {
+            return ResponseEntity.ok(reservaService.findByFechaInicioBetween(inicio, fin));
+        } catch (Exception e) {
+            throw new RuntimeException("Error al filtrar reservas por fechas: " + e.getMessage());
+        }
     }
 
     @GetMapping("/pasajero/{pasajeroId}")
-    public List<ReservaDTO> getReservasByPasajero(@PathVariable Long pasajeroId) {
-        return reservaService.findByPasajeroId(pasajeroId);
+    public ResponseEntity<List<ReservaDTO>> getReservasByPasajero(@PathVariable Long pasajeroId) {
+        try {
+            return ResponseEntity.ok(reservaService.findByPasajeroId(pasajeroId));
+        } catch (Exception e) {
+            throw new RuntimeException("Error al buscar reservas por pasajero: " + e.getMessage());
+        }
     }
 
     @GetMapping("/habitacion/{habitacionId}")
-    public List<ReservaDTO> getReservasByHabitacion(@PathVariable Long habitacionId) {
-        return reservaService.findByHabitacionId(habitacionId);
+    public ResponseEntity<List<ReservaDTO>> getReservasByHabitacion(@PathVariable Long habitacionId) {
+        try {
+            return ResponseEntity.ok(reservaService.findByHabitacionId(habitacionId));
+        } catch (Exception e) {
+            throw new RuntimeException("Error al buscar reservas por habitación: " + e.getMessage());
+        }
     }
 
-    //@GetMapping("/estado/{estado}") Corregido abajo por Lucho
-    //public List<Reserva> getReservasByEstado(@PathVariable String estado) {
-    //    return reservaService.findByEstado(estado);
-    //}
+    @GetMapping("/estado/{estado}")
+    public ResponseEntity<List<ReservaDTO>> getReservasByEstado(@PathVariable EstadoReserva estado) {
+        try {
+            return ResponseEntity.ok(reservaService.findByEstado(estado));
+        } catch (Exception e) {
+            throw new RuntimeException("Error al buscar reservas por estado: " + e.getMessage());
+        }
+    }
 
     @PostMapping
-    public Optional<ReservaDTO> createReserva(@RequestBody ReservaCrearDTO reservaCrearDTO) {
-        return reservaService.save(reservaCrearDTO);
+    public ResponseEntity<ReservaDTO> createReserva(@RequestBody ReservaCrearDTO reservaCrearDTO) {
+        try {
+            Optional<ReservaDTO> creada = reservaService.save(reservaCrearDTO);
+            return creada.map(ResponseEntity::ok)
+                    .orElseThrow(() -> new RuntimeException("No se pudo crear la reserva"));
+        } catch (Exception e) {
+            throw new RuntimeException("Error al crear la reserva: " + e.getMessage());
+        }
     }
 
     @PutMapping("/{id}")
-    public ReservaDTO updateReserva(@PathVariable Long id, @RequestBody ReservaCrearDTO reservaDetails) {
-        return reservaService.updateReserva(id,reservaDetails).get();
+    public ResponseEntity<ReservaDTO> updateReserva(@PathVariable Long id, @RequestBody ReservaCrearDTO reservaDetails) {
+        try {
+            Optional<ReservaDTO> actualizada = reservaService.updateReserva(id, reservaDetails);
+            return actualizada.map(ResponseEntity::ok)
+                    .orElseThrow(() -> new RuntimeException("No se pudo actualizar la reserva"));
+        } catch (Exception e) {
+            throw new RuntimeException("Error al actualizar la reserva: " + e.getMessage());
+        }
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteReserva(@PathVariable Long id) {
-        reservaService.deleteById(id);
-        return ResponseEntity.noContent().build();
+        try {
+            reservaService.deleteById(id);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            throw new RuntimeException("Error al eliminar la reserva: " + e.getMessage());
+        }
     }
-
-
-    // corregido por Lucho
-    @GetMapping("/estado/{estado}")
-    public List<ReservaDTO> getReservasByEstado(@PathVariable EstadoReserva estado) {
-        return reservaService.findByEstado(estado);
-    }
-
-
 }

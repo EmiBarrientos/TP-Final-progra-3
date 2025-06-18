@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @Entity
-@Table(name = "pasajeros")
+@Table(name = "pasajeros", schema = "hotel_dbfinal")
 @Data
 @NoArgsConstructor
 @AllArgsConstructor

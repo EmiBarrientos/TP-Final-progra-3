@@ -1,7 +1,9 @@
-package com.example.demo.controller;
+package com.example.demo.controller.cosas;
 
 import com.example.demo.dto.CostoServicioDTO;
-import com.example.demo.mapper.util.ReflectionMapper;
+import com.example.demo.dto.crear.CostoServicioCrearDTO;
+import com.example.demo.mapper.noIdenticos.CostoServicioCrearMapper;
+import com.example.demo.repository.Costo_ServicioRepository;
 import com.example.demo.service.Costo_ServicioService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,10 @@ import java.util.Optional;
 public class Costo_ServicioController {
     @Autowired
     private Costo_ServicioService costoServicioService;
+    @Autowired
+    private Costo_ServicioRepository costo_ServicioRepository;
+    @Autowired
+    private CostoServicioCrearMapper costoServicioCrearMapper;
 
     @GetMapping
     public List<CostoServicioDTO> getAllServicios() {
@@ -40,20 +46,16 @@ public class Costo_ServicioController {
     }
 
     @PostMapping
-    public CostoServicioDTO createServicio(@RequestBody CostoServicioDTO costoServicio) {
+    public CostoServicioDTO createServicio(@RequestBody CostoServicioCrearDTO costoServicio) {
         return costoServicioService.save(costoServicio).get();
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<CostoServicioDTO> updateServicio(@PathVariable Long id, @RequestBody CostoServicioDTO costoServicioDetails) {
-        Optional<CostoServicioDTO> servicioDTO = costoServicioService.findById(id);
-        if (servicioDTO.isPresent()) {
-            CostoServicioDTO updatedCostoServicio = servicioDTO.get();
-            ReflectionMapper.actualizarCamposNoNulos(costoServicioDetails,updatedCostoServicio);
-            return ResponseEntity.ok(costoServicioService.save(updatedCostoServicio).get());
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+    public ResponseEntity<CostoServicioDTO> updateServicio(@PathVariable Long id, @RequestBody CostoServicioCrearDTO costoServicioDetails) {
+        Optional<CostoServicioDTO> resultado = costoServicioService.update(id,costoServicioDetails);
+        if(resultado.isPresent()){
+            return ResponseEntity.ok(resultado.get());}
+        return ResponseEntity.ok(null);
     }
 
     @DeleteMapping("/{id}")

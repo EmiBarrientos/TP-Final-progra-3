@@ -1,7 +1,12 @@
 package com.example.demo.controller.impuros;
 
+import com.example.demo.dto.EmpleadoDTO;
 import com.example.demo.dto.HabitacionDTO;
+import com.example.demo.dto.PasajeroDTO;
+import com.example.demo.dto.crear.EmpleadoCrearDTO;
+import com.example.demo.dto.crear.PasajeroCrearDTO;
 import com.example.demo.model.enums.EstadoReserva;
+import com.example.demo.model.enums.TipoHabitacion;
 import com.example.demo.service.util.Util_Service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.format.annotation.DateTimeFormat;
@@ -18,6 +23,26 @@ public class UtilController {
 
     private final Util_Service util_Service;
 
+
+
+    @PostMapping("/crear-pasajero")
+    public PasajeroDTO createPasajero(@RequestBody PasajeroCrearDTO pasajeroCrearDTO) {
+        //Pasajero pasajero = pasajeroCrearMapper.toEntity(pasajeroCrearDTO);
+        //PasajeroDTO pasajeroDTO = pasajeroMapper.toDto(pasajero);
+        return util_Service.savePasajeroUsuario(pasajeroCrearDTO).get();
+    }
+
+
+    @PostMapping("/crear-empleado")
+    public EmpleadoDTO createEmpleado(@RequestBody EmpleadoCrearDTO empleadoCrearDTO) {
+        //Pasajero pasajero = pasajeroCrearMapper.toEntity(pasajeroCrearDTO);
+        //PasajeroDTO pasajeroDTO = pasajeroMapper.toDto(pasajero);
+        return util_Service.saveEmpleadoUsuario(empleadoCrearDTO).get();
+    }
+
+
+
+
     @GetMapping("/disponibles") // Devuelve habitaciones que no tienen reserva
     public ResponseEntity<List<HabitacionDTO>> obtenerHabitacionesDisponibles(
             @RequestParam("fechaInicio") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaInicio,
@@ -30,6 +55,29 @@ public class UtilController {
         List<HabitacionDTO> disponibles = util_Service.obtenerHabitacionesDisponibles(fechaInicio, fechaFin);
         return ResponseEntity.ok(disponibles);
     }
+
+
+
+    @GetMapping("/disponiblesfiltro") // Devuelve habitaciones que no tienen reserva
+    public ResponseEntity<List<HabitacionDTO>> obtenerHabitacionesDisponiblesPorTipoyFecha(
+            @RequestParam("fechaInicio") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaInicio,
+            @RequestParam("fechaFin") @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate fechaFin,
+            TipoHabitacion tipo) {
+
+        if (fechaInicio == null || fechaFin == null || fechaInicio.isAfter(fechaFin)) {
+            return ResponseEntity.badRequest().build();
+        }
+
+        List<HabitacionDTO> disponibles = util_Service.obtenerHabitacionesDisponiblesPorFechayTipo(fechaInicio, fechaFin, tipo);
+        return ResponseEntity.ok(disponibles);
+    }
+
+
+    @GetMapping("/costo/{numero}")
+    public double getCostoHabitacionByNumero(@PathVariable String numero) {
+        return util_Service.calcularCostoTotal(numero);
+    }
+
 
 
     // Cambia el estado (PENDIENTE, CONFIRMADA, CHECK_IN, EN_CURSO, CHECK_OUT, CANCELADA, NO_VINO)

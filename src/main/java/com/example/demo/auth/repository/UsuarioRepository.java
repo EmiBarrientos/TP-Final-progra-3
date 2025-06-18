@@ -1,6 +1,9 @@
 package com.example.demo.auth.repository;
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> da2898a8d0c8341af32c290337d8291892917938
 import com.example.demo.auth.entity.Usuario;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;

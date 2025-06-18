@@ -1,13 +1,24 @@
 package com.example.demo.auth.jwt;
 
 
+<<<<<<< HEAD
+=======
+
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Service;
+
+
+>>>>>>> da2898a8d0c8341af32c290337d8291892917938
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+<<<<<<< HEAD
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
+=======
+>>>>>>> da2898a8d0c8341af32c290337d8291892917938
 
 import java.security.Key;
 import java.util.Date;
@@ -23,6 +34,7 @@ public class JwtService {
     }
 
     private String getToken(HashMap<String,Object> extraClaims, UserDetails usuario) {
+<<<<<<< HEAD
             return Jwts.builder()
                     .setClaims(extraClaims)
                     .setSubject(usuario.getUsername())
@@ -30,6 +42,15 @@ public class JwtService {
                     .setExpiration(new Date(System.currentTimeMillis()+1000*60*2))
                     .signWith(getKey(), SignatureAlgorithm.HS256)
                     .compact();
+=======
+        return Jwts.builder()
+                .setClaims(extraClaims)
+                .setSubject(usuario.getUsername())
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis()+1000*60*2))
+                .signWith(getKey(), SignatureAlgorithm.HS256)
+                .compact();
+>>>>>>> da2898a8d0c8341af32c290337d8291892917938
     }
 
     private Key getKey() {
