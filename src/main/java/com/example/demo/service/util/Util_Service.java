@@ -1,8 +1,18 @@
 package com.example.demo.service.util;
 
+import com.example.demo.auth.entity.Usuario;
+import com.example.demo.auth.repository.UsuarioRepository;
 import com.example.demo.dto.CostoHabitacionDTO;
+import com.example.demo.dto.EmpleadoDTO;
 import com.example.demo.dto.HabitacionDTO;
+import com.example.demo.dto.PasajeroDTO;
+import com.example.demo.dto.crear.EmpleadoCrearDTO;
+import com.example.demo.dto.crear.PasajeroCrearDTO;
+import com.example.demo.mapper.EmpleadoMapper;
 import com.example.demo.mapper.HabitacionMapper;
+import com.example.demo.mapper.PasajeroMapper;
+import com.example.demo.mapper.noIdenticos.EmpleadoCrearMapper;
+import com.example.demo.mapper.noIdenticos.PasajeroCrearMapper;
 import com.example.demo.model.*;
 import com.example.demo.model.enums.EstadoReserva;
 import com.example.demo.model.enums.ServicioEnum;
@@ -15,6 +25,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -24,8 +35,44 @@ public class Util_Service {
     private final EmpleadoRepository empleadoRepository;
     private final PasajeroRepository pasajeroRepository;
     private final Costo_ServicioRepository costoServicioRepository;
+    private final UsuarioRepository usuarioServicioRepository;
+
+
     private final CostoHabitacionService costoHabitacionService;
     private final HabitacionMapper habitacionMapper;
+    private final PasajeroCrearMapper pasajeroCrearMapper;
+    private final PasajeroMapper pasajeroMapper;
+    private final EmpleadoCrearMapper empleadoCrearMapper;
+    private final EmpleadoMapper empleadoMapper;
+
+
+
+
+
+
+
+
+    public Optional<PasajeroDTO> savePasajeroUsuario(PasajeroCrearDTO pasajeroCrearDTO) {
+
+        Pasajero pasajero = pasajeroCrearMapper.toEntity(pasajeroCrearDTO);
+        Usuario usuario = usuarioServicioRepository.save(pasajero.getUsuario());
+        pasajero.setUsuario(usuario);
+        PasajeroDTO pasajeroDTO = pasajeroMapper.toDto(pasajeroRepository.save(pasajero));
+        return Optional.of(pasajeroDTO);
+    }
+
+
+    public Optional<EmpleadoDTO> saveEmpleadoUsuario(EmpleadoCrearDTO empleadoCrearDTO) {
+
+        Empleado empleado = empleadoCrearMapper.toEntity(empleadoCrearDTO);
+        Usuario usuario = usuarioServicioRepository.save(empleado.getUsuario());
+        empleado.setUsuario(usuario);
+        EmpleadoDTO empleadoDTO = empleadoMapper.toDto(empleadoRepository.save(empleado));
+        return Optional.of(empleadoDTO);
+    }
+
+
+
 
 
     public List<HabitacionDTO> obtenerHabitacionesDisponibles(LocalDate fechaInicio, LocalDate fechaFin) {
@@ -39,6 +86,18 @@ public class Util_Service {
         return habitacionRepository.findHabitacionesNoReservadas(habitacionesReservadas)
                 .stream().map(p->habitacionMapper.toDto(p)).toList();
     }
+
+
+    public List<HabitacionDTO> obtenerHabitacionesDisponiblesPorFechayTipo(
+            LocalDate fechaInicio, LocalDate fechaFin, TipoHabitacion tipo) {
+        List<HabitacionDTO> habitacionesDisponibles = obtenerHabitacionesDisponibles(
+                fechaInicio, fechaFin).stream()
+                .filter(p->TipoHabitacion.valueOf(p.getTipoHabitacion()) == tipo).toList();
+        return habitacionesDisponibles;
+    }
+
+
+
 
     public void asignarEmpleadoReserva(long reservaId, long empleadoId, EstadoReserva accionEstado) {
         // Traemos al empleado
@@ -72,8 +131,8 @@ public class Util_Service {
     }
 
 
-    public Double calcularCostoTotal(HabitacionDTO habitacionDTO) {
-        Habitacion habitacion = habitacionMapper.toEntity(habitacionDTO);
+    public Double calcularCostoTotal(String numeroHabitacion) {
+        Habitacion habitacion = habitacionRepository.findByNumeroHabitacion(numeroHabitacion);
         if (habitacion == null) {
             throw new IllegalArgumentException("La habitación no puede ser nula");
         }

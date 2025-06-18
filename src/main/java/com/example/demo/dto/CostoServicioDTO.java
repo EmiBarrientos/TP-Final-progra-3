@@ -21,6 +21,6 @@ public class CostoServicioDTO {
 
     @DecimalMin(value = "0.0", message = "El costo no puede ser negativo")
     @Digits(integer = 6, fraction = 2, message = "El costo debe tener máximo 6 dígitos enteros y 2 decimales")
-    private BigDecimal costo;
+    private Double costo;
 
 }

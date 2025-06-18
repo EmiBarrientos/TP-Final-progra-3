@@ -25,12 +25,26 @@ public class SecurityConfig {
         return http
                 .csrf(csrf->   ///Cross-site -request Forgery
                         csrf.disable())
-                .authorizeHttpRequests(authRequest ->
-                        authRequest
-                                .requestMatchers("/auth/**").permitAll()
-                                .requestMatchers("/**").permitAll()
-                        .anyRequest().authenticated()
+                .authorizeHttpRequests(
+                        authRequest ->
+                                authRequest
+                                        .requestMatchers("/auth/**").permitAll()
+                                        .requestMatchers("/api/usuarios/**").hasAnyRole("ADMINISTRADOR")
+                                        .requestMatchers("/api/reservas/**").hasAnyRole("EMPLEADO","ADMINISTRADOR")
+                                        .requestMatchers("/api/empleados/**").hasAnyRole("ADMINISTRADOR")
+                                        .requestMatchers("/api/pasajeros/**").hasAnyRole("EMPLEADO","ADMINISTRADOR")
+                                        .requestMatchers("/api/facturacion/**").hasAnyRole("EMPLEADO","ADMINISTRADOR")
+                                        .requestMatchers("/api/empleadoAccionReserva/**").hasAnyRole("EMPLEADO","ADMINISTRADOR")
+                                        .requestMatchers("/api/costos-habitacion/**").hasAnyRole("EMPLEADO","PASAJERO","ADMINISTRADOR")
+                                        .requestMatchers("/api/Costo_Servicio/**").hasAnyRole("EMPLEADO","ADMINISTRADOR","PASAJERO")
+                                        .requestMatchers("/api/habitaciones/**").hasAnyRole("ADMINISTRADOR","EMPLEADO","PASAJERO")
+                                        .requestMatchers("/api/servicios/**").hasAnyRole("ADMINISTRADOR","EMPLEADO","PASAJERO")
+                                        .requestMatchers("/api/reservas/**").hasAnyRole("EMPLEADO","PASAJERO","ADMINISTRADOR")
+                                        .requestMatchers("/api/costo-serv-adicionales/**").hasAnyRole("EMPLEADO","ADMINISTRADOR","PASAJERO")
+                                        .requestMatchers("/api/empleadoAccionReserva/**").hasAnyRole("EMPLEADO","ADMINISTRADOR")
+                                        .requestMatchers("/api/ServAdicional/**").hasAnyRole("EMPLEADO","ADMINISTRADOR","PASAJERO")
 
+                                        .anyRequest().authenticated()
                 )
                 .sessionManagement(sessionManager ->
                         sessionManager.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
@@ -41,4 +55,18 @@ public class SecurityConfig {
 
 
 
+   /* @Bean
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
+        return http
+                .csrf(csrf -> csrf.disable())
+                .authorizeHttpRequests(auth -> auth
+                        .anyRequest().permitAll()  // 👉 Permitir todas las rutas
+                )
+                .sessionManagement(session -> session
+                        .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                )
+                .build(); // 👈 NO seteás authenticationProvider ni filtros
+    }
+
+*/
 }

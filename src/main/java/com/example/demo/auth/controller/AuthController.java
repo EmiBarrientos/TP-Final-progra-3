@@ -4,7 +4,7 @@ package com.example.demo.auth.controller;
 import com.example.demo.auth.dto.AuthResponse;
 import com.example.demo.auth.dto.LoginRequest;
 import com.example.demo.auth.dto.RegisterRequest;
-import com.example.demo.auth.service.AuthService;
+import com.example.demo.auth.servicios.AuthService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;

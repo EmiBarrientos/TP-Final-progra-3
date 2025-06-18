@@ -22,5 +22,9 @@ public class ReservaDTO {
     private LocalDate fechaFin;
     private EstadoReserva estado;
     private String observaciones;
-    private Map<EstadoReserva,EmpleadoAccionReserva> estadoReservaEmpleadoAccionReservaMap;
+    private Map<EstadoReserva,EmpleadoAccionReserva> empleadoAccionEstado;
+
+    // campos de servicios adicionales
+
+
 }

@@ -15,44 +15,66 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/habitaciones")
 @RequiredArgsConstructor
 public class HabitacionController {
+
     @Autowired
     private HabitacionService habitacionService;
-    @Autowired
+
+
     private final HabitacionMapper habitacionMapper;
 
     @GetMapping
-    public List<HabitacionDTO> getAllHabitaciones() {
-        return habitacionService.findAll();
+    public ResponseEntity<List<HabitacionDTO>> getAllHabitaciones() {
+        try {
+            return ResponseEntity.ok(habitacionService.findAll());
+        } catch (Exception e) {
+            throw new RuntimeException("Error al obtener las habitaciones: " + e.getMessage());
+        }
     }
 
     @GetMapping("/{id}")
     public ResponseEntity<HabitacionDTO> getHabitacionById(@PathVariable Long id) {
-        return habitacionService.findById(id)
-                .map(ResponseEntity::ok)            // Devolver 200 OK con el DTO
-                .orElse(ResponseEntity.notFound().build()); // 404 si no existe
+        try {
+            Optional<HabitacionDTO> habitacion = habitacionService.findById(id);
+            return habitacion.map(ResponseEntity::ok)
+                    .orElse(ResponseEntity.notFound().build());
+        } catch (Exception e) {
+            throw new RuntimeException("Error al buscar habitación por ID: " + e.getMessage());
+        }
     }
 
     @GetMapping("/numero/{numero}")
     public ResponseEntity<HabitacionDTO> getHabitacionByNumero(@PathVariable String numero) {
-        return habitacionService.findByNumeroHabitacion(numero)
-                .map(ResponseEntity::ok)            // Devolver 200 OK con el DTO
-                .orElseGet(() -> ResponseEntity.notFound().build()); // 404 si no existe
+        try {
+            Optional<HabitacionDTO> habitacion = habitacionService.findByNumeroHabitacion(numero);
+            return habitacion.map(ResponseEntity::ok)
+                    .orElse(ResponseEntity.notFound().build());
+        } catch (Exception e) {
+            throw new RuntimeException("Error al buscar habitación por número: " + e.getMessage());
+        }
     }
 
-
     @GetMapping("/estado/{estado}")
-    public List<HabitacionDTO> getHabitacionesByEstado(@PathVariable String estado) {
-        return habitacionService.findByEstado(estado);
+    public ResponseEntity<List<HabitacionDTO>> getHabitacionesByEstado(@PathVariable String estado) {
+        try {
+            return ResponseEntity.ok(habitacionService.findByEstado(estado));
+        } catch (Exception e) {
+            throw new RuntimeException("Error al filtrar habitaciones por estado: " + e.getMessage());
+        }
     }
 
     @GetMapping("/tipo/{tipo}")
-    public List<HabitacionDTO> getHabitacionesByTipo(@PathVariable String tipo) {
-        return habitacionService.findByTipoHabitacion(tipo);
+    public ResponseEntity<List<HabitacionDTO>> getHabitacionesByTipo(@PathVariable String tipo) {
+        try {
+            return ResponseEntity.ok(habitacionService.findByTipoHabitacion(tipo));
+        } catch (Exception e) {
+            throw new RuntimeException("Error al filtrar habitaciones por tipo: " + e.getMessage());
+        }
     }
 
     @PostMapping
@@ -60,38 +82,54 @@ public class HabitacionController {
                                               BindingResult bindingResult) {
         if (bindingResult.hasErrors()) {
             Map<String, String> errores = new HashMap<>();
-            bindingResult.getFieldErrors().forEach(error -> {
-                errores.put(error.getField(), error.getDefaultMessage());
-            });
+            bindingResult.getFieldErrors().forEach(error ->
+                    errores.put(error.getField(), error.getDefaultMessage())
+            );
             return ResponseEntity.badRequest().body(errores);
         }
 
-        HabitacionDTO habitacionDTO1 = habitacionService.save(habitacionDTO).get();
-        return ResponseEntity.status(HttpStatus.CREATED).body(habitacionDTO1);
+        try {
+            Optional<HabitacionDTO> creada = habitacionService.save(habitacionDTO);
+            return creada.map(dto -> ResponseEntity.status(HttpStatus.CREATED).body(dto))
+                    .orElseThrow(() -> new RuntimeException("No se pudo crear la habitación"));
+        } catch (Exception e) {
+            throw new RuntimeException("Error al crear habitación: " + e.getMessage());
+        }
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> updateHabitacion(@PathVariable Long id,
                                               @Valid @RequestBody HabitacionCrearDTO habitacionDetailsDTO,
                                               BindingResult bindingResult) {
-        // Validar el DTO
         if (bindingResult.hasErrors()) {
             Map<String, String> errores = new HashMap<>();
-            bindingResult.getFieldErrors().forEach(error -> {
-                errores.put(error.getField(), error.getDefaultMessage());
-            });
+            bindingResult.getFieldErrors().forEach(error ->
+                    errores.put(error.getField(), error.getDefaultMessage())
+            );
             return ResponseEntity.badRequest().body(errores);
         }
-       HabitacionDTO habitacionSalvadaDTO = habitacionService.updateHabitacion(id,habitacionDetailsDTO).get();
-       return ResponseEntity.ok(habitacionSalvadaDTO);
-    }
 
+        try {
+            Optional<HabitacionDTO> actualizada = habitacionService.updateHabitacion(id, habitacionDetailsDTO);
+            return actualizada.map(ResponseEntity::ok)
+                    .orElseThrow(() -> new RuntimeException("No se pudo actualizar la habitación"));
+        } catch (Exception e) {
+            throw new RuntimeException("Error al actualizar habitación: " + e.getMessage());
+        }
+    }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteHabitacion(@PathVariable Long id) {
-        habitacionService.deleteById(id);
-        return ResponseEntity.noContent().build();
+        try {
+            habitacionService.deleteById(id);
+            return ResponseEntity.noContent().build();
+        } catch (Exception e) {
+            throw new RuntimeException("Error al eliminar habitación: " + e.getMessage());
+        }
     }
+}
+
+
 
 /*
     @GetMapping("/{id}/costo")
@@ -120,4 +158,4 @@ public class HabitacionController {
         }
     }
  */
-}
+

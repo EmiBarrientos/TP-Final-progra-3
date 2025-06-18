@@ -1,7 +1,7 @@
 package com.example.demo.auth.dto;
 
-import com.example.demo.auth.user.Rol;
 import com.example.demo.model.embeddable.Direccion;
+import com.example.demo.auth.enums.Rol;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,9 +19,6 @@ public class UsuarioDTO {
     private String email;
     private Direccion direccion;
     private Rol rol; // administrador, empleado, pasajero
-    private boolean cuentaNoExpirada = true;
-    private boolean cuentaNoBloqueada = true;
-    private boolean credencialesNoExpiradas = true;
-    private boolean activo = true;
+
 
 }

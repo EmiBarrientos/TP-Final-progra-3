@@ -1,13 +1,16 @@
 package com.example.demo.auth.jwt;
 
 
+
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Service;
+
+
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Service;
 
 import java.security.Key;
 import java.util.Date;
@@ -23,13 +26,13 @@ public class JwtService {
     }
 
     private String getToken(HashMap<String,Object> extraClaims, UserDetails usuario) {
-            return Jwts.builder()
-                    .setClaims(extraClaims)
-                    .setSubject(usuario.getUsername())
-                    .setIssuedAt(new Date(System.currentTimeMillis()))
-                    .setExpiration(new Date(System.currentTimeMillis()+1000*60*2))
-                    .signWith(getKey(), SignatureAlgorithm.HS256)
-                    .compact();
+        return Jwts.builder()
+                .setClaims(extraClaims)
+                .setSubject(usuario.getUsername())
+                .setIssuedAt(new Date(System.currentTimeMillis()))
+                .setExpiration(new Date(System.currentTimeMillis()+1000*60*2))
+                .signWith(getKey(), SignatureAlgorithm.HS256)
+                .compact();
     }
 
     private Key getKey() {

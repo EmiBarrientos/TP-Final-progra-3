@@ -23,5 +23,4 @@ public class ServAdicional {
     private String descripcion;
 
 
-
 }

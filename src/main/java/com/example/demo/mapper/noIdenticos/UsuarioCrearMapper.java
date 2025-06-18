@@ -14,20 +14,28 @@ public class UsuarioCrearMapper {
             return null;
         }
         UsuarioCrearDTO dto = new UsuarioCrearDTO();
+
         dto.setId(model.getId());
         dto.setDni(model.getDni());
         dto.setNombre(model.getNombre());
         dto.setApellido(model.getApellido());
         dto.setTelefono(model.getTelefono());
         dto.setEmail(model.getEmail());
-        dto.setRol(model.getRol()); // administrador, empleado, pasajero
-        //private Direccion direccion;
+
+        // direccion
         dto.setCalle(model.getDireccion().getCalle());
         dto.setNumero(model.getDireccion().getNumero());
         dto.setCiudad(model.getDireccion().getCiudad());
         dto.setProvincia(model.getDireccion().getProvincia());
         dto.setCodigoPostal(model.getDireccion().getCodigoPostal());
         dto.setPais(model.getDireccion().getPais());
+
+        dto.setUsername(model.getUsername());
+        dto.setPassword(model.getPassword());
+
+        dto.setRol(model.getRol());
+
+
         return dto;
     }
 
@@ -37,13 +45,46 @@ public class UsuarioCrearMapper {
             return null;
         }
         Usuario model = new Usuario();
+
         model.setId(dto.getId());
         model.setDni(dto.getDni());
         model.setNombre(dto.getNombre());
         model.setApellido(dto.getApellido());
         model.setTelefono(dto.getTelefono());
         model.setEmail(dto.getEmail());
-        model.setRol(dto.getRol()); // administrador, empleado, pasajero
+
+        if (dto.getCalle() != null ||
+                dto.getNumero() != null ||
+                dto.getCiudad() != null ||
+                dto.getProvincia() != null ||
+                dto.getCodigoPostal() != null ||
+                dto.getPais() != null) {
+
+            Direccion direccion = new Direccion();
+            direccion.setCalle(dto.getCalle());
+            direccion.setNumero(dto.getNumero());
+            direccion.setCiudad(dto.getCiudad());
+            direccion.setProvincia(dto.getProvincia());
+            direccion.setCodigoPostal(dto.getCodigoPostal());
+            direccion.setPais(dto.getPais());
+
+            model.setDireccion(direccion);
+        } else {
+            model.setDireccion(null);
+        }
+
+        model.setUsername(dto.getUsername());
+        model.setPassword(dto.getPassword());
+        model.setRol(dto.getRol());
+
+        /* viejo DTO
+        model.setId(dto.getId());
+        model.setDni(dto.getDni());
+        model.setNombre(dto.getNombre());
+        model.setApellido(dto.getApellido());
+        model.setTelefono(dto.getTelefono());
+        model.setEmail(dto.getEmail());
+        model.setPermisos(dto.getPermisos()); // administrador, empleado, pasajero
         //private Direccion direccion;
         Direccion direccion = new Direccion();
         direccion.setCalle(dto.getCalle());
@@ -52,7 +93,9 @@ public class UsuarioCrearMapper {
         direccion.setProvincia(dto.getProvincia());
         direccion.setCodigoPostal(dto.getCodigoPostal());
         direccion.setPais(dto.getPais());
-        model.setDireccion(direccion);
+        model.setDireccion(direccion);*/
+
+
         return model;
     }
 

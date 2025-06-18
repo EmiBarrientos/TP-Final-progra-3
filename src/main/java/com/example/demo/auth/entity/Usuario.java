@@ -1,12 +1,17 @@
 package com.example.demo.auth.entity;
 
-import com.example.demo.auth.user.Rol;
-import com.example.demo.model.Credenciales;
 import com.example.demo.model.Empleado;
 import com.example.demo.model.Pasajero;
 import com.example.demo.model.embeddable.Direccion;
+import com.example.demo.auth.enums.Rol;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
-import lombok.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -36,6 +41,10 @@ public class Usuario implements UserDetails {
     @Column(nullable = false)
     private String apellido;
     private String telefono;
+
+
+    @Email(message = "El email debe tener un formato válido")
+    @NotBlank(message = "El email no puede estar vacío")
     @Column(nullable = false, unique = true)
     private String email;
 
@@ -45,6 +54,65 @@ public class Usuario implements UserDetails {
     @Column(nullable = false)
     @Enumerated(EnumType.STRING)
     private Rol rol; // administrador, empleado, pasajero
+
+
+
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "usuario")
+    private Empleado empleado;
+
+    @JsonIgnore
+    @OneToOne(mappedBy = "usuario")
+    private Pasajero pasajero;
+
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        return List.of(new SimpleGrantedAuthority("ROLE_" + rol.name()));
+    }
+
+
+
+}
+
+
+
+/* viejo usuario
+import com.example.demo.model.embeddable.Direccion;
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Entity
+@Table(name = "usuarios")
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+@Builder
+public class Usuario {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    @Column(nullable = false, unique = true)
+    private String dni;
+
+    @Column(nullable = false)
+    private String nombre;
+
+    @Column(nullable = false)
+    private String apellido;
+
+    private String telefono;
+    private String email;
+
+    @Embedded
+    private Direccion direccion;
+
+    @Column(nullable = false)
+    private String permisos; // administrador, empleado, pasajero
 
     @Column(name = "cuenta_no_expirada")
     private boolean cuentaNoExpirada = true;
@@ -65,10 +133,4 @@ public class Usuario implements UserDetails {
 
     @OneToOne(mappedBy = "usuario")
     private Pasajero pasajero;
-
-    @Override
-    public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(rol.name()));
-    }
-
-}
+*/

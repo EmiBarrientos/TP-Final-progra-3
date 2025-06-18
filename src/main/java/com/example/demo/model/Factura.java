@@ -40,3 +40,5 @@ public class Factura {
     @Column(nullable = false)
     private Double total;
 }
+
+

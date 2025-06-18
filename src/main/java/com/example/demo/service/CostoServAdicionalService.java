@@ -85,12 +85,11 @@ public class CostoServAdicionalService {
         // Convertir el nombre (String) a ServAdicionalEnum, para asignarlo a la entidad
         ServAdicionalEnum enumNombre;
         try {
-            enumNombre = ServAdicionalEnum.valueOf(
-                    dtoRequest.getNombreServicioAdicional().toUpperCase()
-            );
+            enumNombre =
+                    dtoRequest.getNombre();
         } catch (IllegalArgumentException e) {
             throw new RuntimeException("Nombre de servicio inválido: "
-                    + dtoRequest.getNombreServicioAdicional());
+                    + dtoRequest.getNombre());
         }
 
         // Si dtoRequest.getId() no es null, busco la entidad existente; si no, creo una nueva
@@ -99,7 +98,7 @@ public class CostoServAdicionalService {
                 : new CostoServAdicional();
 
         entidad.setNombre(enumNombre);
-        entidad.setPrecio(dtoRequest.getPrecioUnitario());
+        entidad.setPrecio(dtoRequest.getPrecio());
 
         CostoServAdicional guardada = costoRepo.save(entidad);
         return costoMapper.toDto(guardada);
