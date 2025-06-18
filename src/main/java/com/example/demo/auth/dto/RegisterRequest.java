@@ -1,5 +1,6 @@
 package com.example.demo.auth.dto;
 
+import com.example.demo.auth.enums.Rol;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -18,4 +19,5 @@ public class RegisterRequest {
     private String apellido;
     private String telefono;
     private String email;
+    private Rol rol;
 }
