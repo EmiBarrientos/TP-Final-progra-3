@@ -12,9 +12,6 @@
 - [🧩 Funcionalidades](#-funcionalidades)
 - [🛡️ Seguridad y roles](#-seguridad-y-roles)
 - [📦 Endpoints principales](#-endpoints-principales)
-- [📚 Documentación Swagger](#-documentación-swagger)
-- [🚀 Cómo ejecutar el proyecto](#-cómo-ejecutar-el-proyecto)
-- [🧪 Usuarios de prueba](#-usuarios-de-prueba)
 - [🎓 Información académica](#-información-académica)
 - [👥 Autores](#-autores)
 
