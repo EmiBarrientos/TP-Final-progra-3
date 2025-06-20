@@ -18,9 +18,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-@Service
+@Service ("AuthServiceServicio")
 @RequiredArgsConstructor
-public class AuthService {
+public class AuthServiceServicio {
 
     private final UsuarioRepository usuarioRepository;
     private final JwtService jwtService;

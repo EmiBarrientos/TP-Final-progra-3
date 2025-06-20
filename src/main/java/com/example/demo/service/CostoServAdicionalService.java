@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Service
-public class VERCostoServAdicionalService {
+public class CostoServAdicionalService {
 
     @Autowired
     private CostoServAdicionalRepository costoRepo;

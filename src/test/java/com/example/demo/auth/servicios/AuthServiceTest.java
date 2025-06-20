@@ -40,7 +40,7 @@ class AuthServiceTest {
     private PasswordEncoder passwordEncoder;
 
     @InjectMocks
-    private AuthService authService;
+    private AuthServiceServicio authServiceServicio;
 
     @BeforeEach
     void setUp() {
@@ -67,7 +67,7 @@ class AuthServiceTest {
         when(jwtService.getToken(any(Usuario.class))).thenReturn(tokenEsperado);
 
         // Act
-        AuthResponse response = authService.register(request);
+        AuthResponse response = authServiceServicio.register(request);
 
         // Assert
         assertNotNull(response);
@@ -91,7 +91,7 @@ class AuthServiceTest {
         when(jwtService.getToken(usuario)).thenReturn(tokenEsperado);
 
         // Act
-        AuthResponse response = authService.login(request);
+        AuthResponse response = authServiceServicio.login(request);
 
         // Assert
         assertNotNull(response);

@@ -6,7 +6,6 @@ import com.example.demo.mapper.CostoServAdicionalMapper;
 import com.example.demo.model.CostoServAdicional;
 import com.example.demo.model.enums.ServAdicionalEnum;
 import com.example.demo.repository.CostoServAdicionalRepository;
-import com.example.demo.service.VERCostoServAdicionalService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.*;
@@ -17,7 +16,7 @@ import java.util.Optional;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
 
-class VERCostoServAdicionalServiceTest {
+class CostoServAdicionalServiceTest {
 
     @Mock
     private CostoServAdicionalRepository repo;
@@ -26,7 +25,7 @@ class VERCostoServAdicionalServiceTest {
     private CostoServAdicionalMapper mapper;
 
     @InjectMocks
-    private VERCostoServAdicionalService service;
+    private CostoServAdicionalService service;
 
     private CostoServAdicional entidad;
     private CostoServAdicionalDTO dto;

@@ -27,21 +27,27 @@ import java.util.List;
 @Inheritance(strategy = InheritanceType.JOINED)
 @Table(name = "usuarios", uniqueConstraints = {@UniqueConstraint(columnNames = {"username"})})
 public class Usuario implements UserDetails {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     @Column(nullable = false)
     private String username;
+
+    @Column(nullable = false)
     private String password;
+
     @Column(nullable = false, unique = true)
     private String dni;
+
     @Column(nullable = false)
     private String nombre;
+
     @Column(nullable = false)
     private String apellido;
-    private String telefono;
 
+    private String telefono;
 
     @Email(message = "El email debe tener un formato válido")
     @NotBlank(message = "El email no puede estar vacío")
@@ -51,12 +57,9 @@ public class Usuario implements UserDetails {
     @Embedded
     private Direccion direccion;
 
-    @Column(nullable = false)
     @Enumerated(EnumType.STRING)
-    private Rol rol; // administrador, empleado, pasajero
-
-
-
+    @Column(nullable = false)
+    private Rol rol; // ADMINISTRADOR, EMPLEADO, PASAJERO
 
     @JsonIgnore
     @OneToOne(mappedBy = "usuario")
@@ -66,14 +69,44 @@ public class Usuario implements UserDetails {
     @OneToOne(mappedBy = "usuario")
     private Pasajero pasajero;
 
+    // Métodos obligatorios de UserDetails
+
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         return List.of(new SimpleGrantedAuthority("ROLE_" + rol.name()));
     }
 
+    @Override
+    public String getPassword() {
+        return password;
+    }
 
+    @Override
+    public String getUsername() {
+        return username;
+    }
 
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
 }
+
 
 
 
