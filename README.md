@@ -31,19 +31,19 @@ CheckinTech busca digitalizar y automatizar los procesos internos de un hotel, b
 Incluye roles diferenciados, autenticación segura y una arquitectura basada en buenas prácticas.
 
 ---
-
 ## 🛠️ Tecnologías utilizadas
 
-| Tecnología            | Uso principal                          |
-|------------------------|----------------------------------------|
-| Java 17 / 21 / 23      | Lenguaje de programación               |
-| Spring Boot 3.4.5      | Backend, configuración y autoconfig    |
-| Spring Data JPA        | Persistencia con Hibernate             |
-| Spring Security + JWT  | Autenticación y autorización segura   |
-| Swagger (OpenAPI) 2.2  | Documentación interactiva              |
-| Maven                  | Gestión de dependencias                |
-| MySQL / PostgreSQL     | Base de datos                          |
-| Lombok                 | Reducción de boilerplate (getters, etc)|
+| Tecnología               | Uso principal                                                   |
+|--------------------------|-----------------------------------------------------------------|
+| Java 17 / 21 / 23         | Lenguaje de programación utilizado para construir la aplicación |
+| Spring Boot 3.4.5         | Framework principal para el backend y configuración automática  |
+| Spring Data JPA           | Abstracción para la persistencia de datos con Hibernate         |
+| Spring Security + JWT     | Seguridad: autenticación y autorización con tokens              |
+| Springdoc OpenAPI 2.3.0   | Documentación interactiva de la API con Swagger UI              |
+| Maven                     | Gestión de dependencias y ciclo de vida del proyecto            |
+| MySQL / PostgreSQL        | Bases de datos para el almacenamiento persistente               |
+| Lombok                    | Eliminación de código repetitivo (getters, setters, etc.)        |
+
 
 
 ---
@@ -133,6 +133,11 @@ Este proyecto fue desarrollado como **Trabajo Final Integrador** de la materia *
 - Seguridad y control de acceso
 - Documentación Swagger
 - Uso de Java moderno y patrón de capas
+
+- --
+### Probador PHP (consumo de API)
+
+En la carpeta `php-client/` se incluye un script PHP de prueba (`probador.php`) que permite enviar peticiones a la API para validar endpoints y login. Solo debe tener PHP instalado o usar XAMPP/WAMP/Laragon.
 
 ---
 
