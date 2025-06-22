@@ -7,7 +7,7 @@ import org.springframework.context.annotation.Configuration;
 @OpenAPIDefinition(
         info = @Info(
                 title = "CheckInTech API",
-                version = "1.0",
+                version = "final",
                 description = "Documentación de la API para gestión de hotel"
         )
 )
