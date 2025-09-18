@@ -1,8 +1,8 @@
 package com.example.demo.mapper;
 
-import com.example.demo.dto.UsuarioDTO;
+import com.example.demo.auth.dto.UsuarioDTO;
 import com.example.demo.mapper.util.ReflectionMapper;
-import com.example.demo.model.Usuario;
+import com.example.demo.auth.entity.Usuario;
 import org.springframework.stereotype.Component;
 
 @Component

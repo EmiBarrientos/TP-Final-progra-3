@@ -24,5 +24,4 @@ public interface ReservaRepository extends JpaRepository<Reserva, Long> {
     List<Long> findHabitacionIdsReservadasEntreFechas(@Param("fechaInicio") LocalDate fechaInicio,
                                                       @Param("fechaFin") LocalDate fechaFin);
 
-
 }
